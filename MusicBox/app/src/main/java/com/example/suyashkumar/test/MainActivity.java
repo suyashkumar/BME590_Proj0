@@ -1,3 +1,11 @@
+/*
+MainActivity.java
+TODO: Description
+
+@author Suyash Kumar
+@author Shana Fielding
+@author Amy Zhao
+ */
 package com.example.suyashkumar.test;
 
 import android.media.MediaPlayer;
@@ -39,21 +47,36 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void toggle(View v){
-        TextView text=(TextView)findViewById(R.id.textView);
-        number++;
-        text.setText("Clicked " + number+" times.");
-        playSound(R.raw.f);
+    /*
+    playSound
+    This function plays a piano sound based on which button press called this function.
+    @param v The view information from the calling object
+     */
+    public void playSound(View v) {
+        int soundId=-1; // Default value of soundId
 
-    }
-    private void playSound(int soundResId) {
-        MediaPlayer mp = MediaPlayer.create(this,soundResId);
+        System.out.println(v.getId()); // Print the caller id for debug
+        System.out.println(R.id.imageButton2);
+
+        switch(v.getId()){ //Switch over the id to determine who the caller was and set the proper soundId
+            case (R.id.imageButton):
+                soundId=R.raw.f;
+            case (R.id.imageButton2):
+                soundId=R.raw.f;
+        }
+        if (soundId==-1){ // If soundId is unchanged, something wrong is calling this function.
+            System.exit(0);
+        }
+
+
+        MediaPlayer mp = MediaPlayer.create(this,soundId); // Create a new MediaPlayer object
+
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
-                mp.release();
+                mp.release(); // Explicitly release this object when sound finished playing
             }
         });
 
-        mp.start();
+        mp.start(); // Start playing the selected sound (specified by soundId)
     }
 }
