@@ -54,23 +54,23 @@ public class MainActivity extends AppCompatActivity {
      */
     public void playSound(View v) {
         int soundId=-1; // Default value of soundId
-
         System.out.println(v.getId()); // Print the caller id for debug
         System.out.println(R.id.imageButton2);
 
         switch(v.getId()){ //Switch over the id to determine who the caller was and set the proper soundId
             case (R.id.imageButton):
-                soundId=R.raw.f;
+                soundId=R.raw.c;
+                break;
             case (R.id.imageButton2):
-                soundId=R.raw.f;
-        }
-        if (soundId==-1){ // If soundId is unchanged, something wrong is calling this function.
-            System.exit(0);
+                soundId=R.raw.d;
+                break;
+            default:
+                System.exit(0); // If soundId is unchanged, something wrong is calling this function.
+                break;
         }
 
         callID(soundId);
     }
-
     public void callID(int soundId){
         MediaPlayer mp = MediaPlayer.create(this,soundId); // Create a new MediaPlayer object
 
