@@ -68,7 +68,10 @@ public class MainActivity extends AppCompatActivity {
             System.exit(0);
         }
 
+        callID(soundId);
+    }
 
+    public void callID(int soundId){
         MediaPlayer mp = MediaPlayer.create(this,soundId); // Create a new MediaPlayer object
 
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
