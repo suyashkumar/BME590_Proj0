@@ -89,4 +89,31 @@ callID
 
         mp.start(); // Start playing the selected sound (specified by soundId)
     }
+
+    /*
+    startGame
+    This function starts the game after a song selection has been made. It will play the song and
+    then record user input, then compare them to determine a score
+    @param v The view information from the calling object
+    @param songId The song that's been chosen
+     */
+
+    public void startGame(View v, String songId){
+        ToggleButton startButton = (ToggleButton) findViewById(R.id.startButtonID) // find the button on the view
+
+        if(startButton.isChecked()){ //1 if start button pressed, 0 o.w.
+            String orig = maryHadALittleLamb(); // play mary had a little lamb right now
+           // String orig = playSong(songId); // play whatever song the user chose, implement later if time
+            String userIn = recordSong();
+            int finalScore = score(orig, userIn);
+        }
+        else{
+            String noSong = "Please select a song";
+            TextView text;
+            text = (TextView)findViewById(R.id.text_message);
+            text.setText(noSong);
+        }
+    }
+
+
 }

@@ -44,5 +44,21 @@
         android:layout_toEndOf="@+id/imageButton2"
         android:onClick="playSound"/>
 
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="Start Game"
+        android:textOn="Good luck!"
+        android:id="@+id/startButtonID"
+        android:layout_above="@+id/imageButton3"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/startButtonID"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
