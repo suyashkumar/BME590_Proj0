@@ -60,10 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
         switch(v.getId()){ //Switch over the id to determine who the caller was and set the proper soundId
             case (R.id.imageButton):
-                soundId=R.raw.C;
+                soundId=R.raw.c;
                 break;
             case (R.id.imageButton2):
-                soundId=R.raw.D;
+                soundId=R.raw.d;
+                break;
+            case (R.id.imageButton3):
+                soundId=R.raw.e;
                 break;
             default:
                 System.exit(0); // If soundId is unchanged, something wrong is calling this function.
