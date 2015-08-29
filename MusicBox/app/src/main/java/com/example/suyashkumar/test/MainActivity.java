@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -99,19 +100,19 @@ callID
      */
 
     public void startGame(View v, String songId){
-        ToggleButton startButton = (ToggleButton) findViewById(R.id.startButtonID) // find the button on the view
+        ToggleButton startButton = (ToggleButton) findViewById(R.id.startButtonID); // find the button on the view
 
         if(startButton.isChecked()){ //1 if start button pressed, 0 o.w.
-            String orig = maryHadALittleLamb(); // play mary had a little lamb right now
+            //String orig = maryHadALittleLamb(); // play mary had a little lamb right now
            // String orig = playSong(songId); // play whatever song the user chose, implement later if time
-            String userIn = recordSong();
-            int finalScore = score(orig, userIn);
+            //String userIn = recordSong();
+            //int finalScore = score(orig, userIn);
         }
         else{
             String noSong = "Please select a song";
             TextView text;
-            text = (TextView)findViewById(R.id.text_message);
-            text.setText(noSong);
+            //text = (TextView)findViewById(R.id.text_message);
+            //text.setText(noSong);
         }
     }
 
