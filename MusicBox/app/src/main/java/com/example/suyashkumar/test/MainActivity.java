@@ -68,6 +68,18 @@ public class MainActivity extends AppCompatActivity {
             case (R.id.imageButton3):
                 soundId=R.raw.e;
                 break;
+            case (R.id.imageButton4):
+                soundId=R.raw.f;
+                break;
+            case (R.id.imageButton5):
+                soundId=R.raw.g;
+                break;
+            case (R.id.imageButton6):
+                soundId=R.raw.a;
+                break;
+            case (R.id.imageButton7):
+                soundId=R.raw.b;
+                break;
             default:
                 System.exit(0); // If soundId is unchanged, something wrong is calling this function.
                 break;
