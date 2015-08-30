@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,10 +60,25 @@ public class MainActivity extends AppCompatActivity {
 
         switch(v.getId()){ //Switch over the id to determine who the caller was and set the proper soundId
             case (R.id.imageButton):
-                soundId=R.raw.C;
+                soundId=R.raw.c;
                 break;
             case (R.id.imageButton2):
-                soundId=R.raw.D;
+                soundId=R.raw.d;
+                break;
+            case (R.id.imageButton3):
+                soundId=R.raw.e;
+                break;
+            case (R.id.imageButton4):
+                soundId=R.raw.f;
+                break;
+            case (R.id.imageButton5):
+                soundId=R.raw.g;
+                break;
+            case (R.id.imageButton6):
+                soundId=R.raw.a;
+                break;
+            case (R.id.imageButton7):
+                soundId=R.raw.b;
                 break;
             default:
                 System.exit(0); // If soundId is unchanged, something wrong is calling this function.
@@ -88,4 +105,52 @@ callID
 
         mp.start(); // Start playing the selected sound (specified by soundId)
     }
+
+    /*
+    startGame
+    This function starts the game after a song selection has been made. It will play the song and
+    then record user input, then compare them to determine a score
+    @param v The view information from the calling object
+    @param songId The song that's been chosen
+     */
+
+    public void startGame(View v, String songId){
+        ToggleButton startButton = (ToggleButton) findViewById(R.id.startButtonID); // find the button on the view
+
+        if(startButton.isChecked()){ //1 if start button pressed, 0 o.w.
+            //String orig = maryHadALittleLamb(); // play mary had a little lamb right now
+           // String orig = playSong(songId); // play whatever song the user chose, implement later if time
+            //String userIn = recordSong();
+            //int finalScore = score(orig, userIn);
+        }
+        else{
+            String noSong = "Please select a song";
+            TextView text;
+            //text = (TextView)findViewById(R.id.text_message);
+            //text.setText(noSong);
+        }
+    }
+
+     /*
+    finalScore
+    This function returns a score for the user based on % correct. May be altered later to reflect edit distance.
+    @param orig The original string of notes played in the song
+    @param userIn The string of notes the user plays
+     */
+
+    public float finalScore(String orig, String userIn){
+       float score = 0;
+       float total = orig.length();
+
+       for(int i = 0; i < total; i++){
+           if(orig.charAt(i)==userIn.charAt(i)){
+               score++;
+           }
+       }
+
+       float percent = (score/total)*100;
+
+       return percent;
+    }
+
 }
