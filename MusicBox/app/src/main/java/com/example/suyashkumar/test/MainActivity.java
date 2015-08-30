@@ -131,5 +131,26 @@ callID
         }
     }
 
+     /*
+    finalScore
+    This function returns a score for the user based on % correct. May be altered later to reflect edit distance.
+    @param orig The original string of notes played in the song
+    @param userIn The string of notes the user plays
+     */
+
+    public float finalScore(String orig, String userIn){
+       float score = 0;
+       float total = orig.length();
+
+       for(int i = 0; i < total; i++){
+           if(orig.charAt(i)==userIn.charAt(i)){
+               score++;
+           }
+       }
+
+       float percent = (score/total)*100;
+
+       return percent;
+    }
 
 }
