@@ -85,16 +85,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        callID(soundId);
+        playSoundById(soundId);
     }
 
     /*
-callID
- This function plays a piano sound based on the soundID passed from playSound.
- @param soundId The integer corresponding to the note being played.
+ playSoundById
+ This function plays a piano sound based on the soundID (resource id) passed from playSound.
+ @param soundId The integer corresponding to the soundID for the note .wav file being played.
   */
 
-    public void callID(int soundId){
+    public void playSoundById(int soundId){
         MediaPlayer mp = MediaPlayer.create(this,soundId); // Create a new MediaPlayer object
 
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
