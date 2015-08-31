@@ -132,13 +132,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
      /*
-    finalScore
+    percentScore
     This function returns a score for the user based on % correct. May be altered later to reflect edit distance.
     @param orig The original string of notes played in the song
     @param userIn The string of notes the user plays
-     */
 
-    public float finalScore(String orig, String userIn){
+
+    public float percentScore(String orig, String userIn){
        float score = 0;
        float total = orig.length();
 
@@ -151,6 +151,63 @@ public class MainActivity extends AppCompatActivity {
        float percent = (score/total)*100;
 
        return percent;
+    }
+    */
+
+    /*
+    finalScore
+    This function returns a score for the user based on % correct (edit distance/orig length)*100
+    @param orig The original string of notes played in the song
+    @param userIn The string of notes the user plays
+     */
+
+    public float finalScore(String orig, String userIn){
+
+        // add +1 to help with the 0th row and column which should be initialized to all 0s
+        int origLen = orig.length();
+        int userLen = userIn.length();
+        Integer[][] table = new Integer[origLen][userLen];
+
+        // initialize 0th row and 0th column to all 0s
+        for(int i=0; i < origLen; i++){
+            for(int j=0; j < userLen; j++){
+                int d = diff(orig.charAt(i),userIn.charAt(j));
+
+                if(i==0){
+                    if(j==0){
+                        table[i][j] = d;
+                    }else{
+                        table[i][j] = d+table[i][j-1];
+                    }
+                }else if(j==0){
+                    table[i][j] = d+table[i-1][j];
+                }else{
+                    int interMin = Math.min(1+table[i-1][j],1+table[i][j-1]);
+                    int realMin = Math.min(interMin,d+table[i-1][j-1]);
+                    table[i][j] = realMin;
+                }
+            }
+        }
+
+        int editDist = table[origLen-1][userLen-1];
+        float percentWrong = editDist/((float) origLen)*100;
+        float score = 100-percentWrong;
+
+        return score;
+    }
+
+    /*
+    diff
+    This function checks if two characters are the same
+    @param i Character i
+    @param j Character j
+     */
+    public int diff(char i, char j){
+        if(i==j){
+            return 0;
+        }else{
+            return 1;
+        }
     }
 
 }
