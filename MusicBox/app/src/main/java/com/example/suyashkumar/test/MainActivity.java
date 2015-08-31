@@ -289,6 +289,11 @@ This function waits a specified amount of time before moving to the next instruc
         // add +1 to help with the 0th row and column which should be initialized to all 0s
         int origLen = orig.length();
         int userLen = userIn.length();
+
+        if(userLen==0){
+            return 0;
+        }
+
         Integer[][] table = new Integer[origLen][userLen];
 
         // initialize 0th row and 0th column to all 0s
