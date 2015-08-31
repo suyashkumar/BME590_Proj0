@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-
 
 public class MainActivity extends AppCompatActivity {
     int number=0; // Number of times clicked
+    String songRecording;
+    String origSong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,37 +50,58 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    /*
+delay
+This function waits a specified amount of time before moving to the next instruction.
+@param time The time in ms to delay
+*/
+    public void delay(int time){
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException ie) {
+            //Handle exception
+        }
+    }
+
     /*
     playSound
     This function plays a piano sound based on which button press called this function.
     @param v The view information from the calling object
      */
-    public void playSound(View v) {
+    public String playSound(View v) {
         int soundId=-1; // Default value of soundId
-        System.out.println(v.getId()); // Print the caller id for debug
-        System.out.println(R.id.imageButton2);
-
+        //System.out.println(v.getId()); // Print the caller id for debug
+        //System.out.println(R.id.imageButton2);
         switch(v.getId()){ //Switch over the id to determine who the caller was and set the proper soundId
             case (R.id.imageButton):
                 soundId=R.raw.c;
+                songRecording+="C";
                 break;
             case (R.id.imageButton2):
                 soundId=R.raw.d;
+                songRecording+="D";
                 break;
             case (R.id.imageButton3):
                 soundId=R.raw.e;
+                songRecording+="E";
                 break;
             case (R.id.imageButton4):
                 soundId=R.raw.f;
+                songRecording+="F";
                 break;
             case (R.id.imageButton5):
                 soundId=R.raw.g;
+                songRecording+="G";
                 break;
             case (R.id.imageButton6):
                 soundId=R.raw.a;
+                songRecording+="A";
                 break;
             case (R.id.imageButton7):
                 soundId=R.raw.b;
+                songRecording+="B";
                 break;
             default:
                 System.exit(0); // If soundId is unchanged, something wrong is calling this function.
@@ -86,9 +109,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         playSoundById(soundId);
+
+        return songRecording;
     }
 
-    /*
+
+        /*
  playSoundById
  This function plays a piano sound based on the soundID (resource id) passed from playSound.
  @param soundId The integer corresponding to the soundID for the note .wav file being played.
@@ -106,39 +132,136 @@ public class MainActivity extends AppCompatActivity {
         mp.start(); // Start playing the selected sound (specified by soundId)
     }
 
+
+
+    /*
+    maryHadALittleLamb
+    This function plays a maryHadALittleLamb, and lights up the corresponding keys.
+    It returns a string containing the correct notes.
+     */
+    public String maryHadALittleLamb(){
+
+        ImageButton buttonC = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton buttonD = (ImageButton) findViewById(R.id.imageButton2);
+        ImageButton buttonE = (ImageButton) findViewById(R.id.imageButton3);
+        ImageButton buttonF = (ImageButton) findViewById(R.id.imageButton4);
+        ImageButton buttonG = (ImageButton) findViewById(R.id.imageButton5);
+        ImageButton buttonA = (ImageButton) findViewById(R.id.imageButton6);
+        ImageButton buttonB = (ImageButton) findViewById(R.id.imageButton7);
+        //ImageButton buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
+        buttonE.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonC.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(1000);
+        buttonD.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(1000);
+        buttonE.performClick();
+        delay(500);
+        buttonG.performClick();
+        delay(500);
+        buttonG.performClick();
+        delay(1000);
+        buttonE.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonC.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonE.performClick();
+        delay(500);
+        buttonD.performClick();
+        delay(500);
+        buttonC.performClick();
+        return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
+    }
+
+
+
     /*
     startGame
     This function starts the game after a song selection has been made. It will play the song and
-    then record user input, then compare them to determine a score
+    then call the recordSong method and determine a score.
     @param v The view information from the calling object
-    @param songId The song that's been chosen
      */
 
-    public void startGame(View v, String songId){
-        ToggleButton startButton = (ToggleButton) findViewById(R.id.startButtonID); // find the button on the view
+    public void startGame(View v){
+        Button startButton = (Button) findViewById(R.id.startButtonID); // find the button on the view
+        origSong = maryHadALittleLamb(); // play mary had a little lamb right now
+        // String orig = playSong(songId); // play whatever song the user chose, implement later if time
+        songRecording = ""; //reset string
+        String instructions = "Your turn!";
+        TextView text;
+        text = (TextView)findViewById(R.id.text_message);
+        text.setText(instructions);
 
-        if(startButton.isChecked()){ //1 if start button pressed, 0 o.w.
-            //String orig = maryHadALittleLamb(); // play mary had a little lamb right now
+
+        //int score = finalScore(orig, userIn);
+
+        //if(startButton.is()){ //1 if start button pressed, 0 o.w.
+        //    String orig = maryHadALittleLamb(); // play mary had a little lamb right now
            // String orig = playSong(songId); // play whatever song the user chose, implement later if time
-            //String userIn = recordSong();
-            //int finalScore = score(orig, userIn);
-        }
-        else{
-            String noSong = "Please select a song";
-            TextView text;
+         //   songRecording = ""; //reset string
+            //int score = finalScore(orig, userIn);
+        //}
+        //else{
+         //   String noSong = "Please select a song";
+          //  TextView text;
             //text = (TextView)findViewById(R.id.text_message);
             //text.setText(noSong);
-        }
+      //  }
+    }
+
+        /*
+    recordSong
+    This function ends the game once the user has finished playing their song. It will
+    then user input, then compare that to the original notes them to determine a score
+    @param v The view information from the calling object
+     */
+
+    public void recordSong(View v){
+        Button recordSongButton = (Button) findViewById(R.id.recordSongID); // find the button on the view
+        System.out.println(songRecording);  //display recorded string for debug
+        String userIn = songRecording;
+        float score = finalScore(origSong, userIn);
+        System.out.println(score);  //display score for debug
     }
 
      /*
-    finalScore
+    percentScore
     This function returns a score for the user based on % correct. May be altered later to reflect edit distance.
     @param orig The original string of notes played in the song
     @param userIn The string of notes the user plays
-     */
 
-    public float finalScore(String orig, String userIn){
+
+    public float percentScore(String orig, String userIn){
        float score = 0;
        float total = orig.length();
 
@@ -151,6 +274,68 @@ public class MainActivity extends AppCompatActivity {
        float percent = (score/total)*100;
 
        return percent;
+    }
+    */
+
+    /*
+    finalScore
+    This function returns a score for the user based on % correct (edit distance/orig length)*100
+    @param orig The original string of notes played in the song
+    @param userIn The string of notes the user plays
+     */
+
+    public float finalScore(String orig, String userIn){
+
+        // add +1 to help with the 0th row and column which should be initialized to all 0s
+        int origLen = orig.length();
+        int userLen = userIn.length();
+
+        if(userLen==0){
+            return 0;
+        }
+
+        Integer[][] table = new Integer[origLen][userLen];
+
+        // initialize 0th row and 0th column to all 0s
+        for(int i=0; i < origLen; i++){
+            for(int j=0; j < userLen; j++){
+                int d = diff(orig.charAt(i),userIn.charAt(j));
+
+                if(i==0){
+                    if(j==0){
+                        table[i][j] = d;
+                    }else{
+                        table[i][j] = d+table[i][j-1];
+                    }
+                }else if(j==0){
+                    table[i][j] = d+table[i-1][j];
+                }else{
+                    int interMin = Math.min(1+table[i-1][j],1+table[i][j-1]);
+                    int realMin = Math.min(interMin,d+table[i-1][j-1]);
+                    table[i][j] = realMin;
+                }
+            }
+        }
+
+        int editDist = table[origLen-1][userLen-1];
+        float percentWrong = editDist/((float) origLen)*100;
+        float score = 100-percentWrong;
+
+        return score;
+    }
+
+    /*
+    diff
+    This function checks if two characters are the same
+    @param i Character i
+    @param j Character j
+     */
+    public int diff(char i, char j){
+        if(i==j){
+            return 0;
+        }else{
+            return 1;
+        }
     }
 
 }
