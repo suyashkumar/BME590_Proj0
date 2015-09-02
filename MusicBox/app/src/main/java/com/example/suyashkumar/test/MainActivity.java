@@ -8,8 +8,10 @@ TODO: Description
  */
 package com.example.suyashkumar.test;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -174,69 +176,60 @@ This function waits a specified amount of time before moving to the next instruc
      */
     public String maryHadALittleLamb(){
 
-        ImageButton buttonC = (ImageButton) findViewById(R.id.imageButton);
-        ImageButton buttonD = (ImageButton) findViewById(R.id.imageButton2);
-        ImageButton buttonE = (ImageButton) findViewById(R.id.imageButton3);
-        ImageButton buttonF = (ImageButton) findViewById(R.id.imageButton4);
-        ImageButton buttonG = (ImageButton) findViewById(R.id.imageButton5);
-        ImageButton buttonA = (ImageButton) findViewById(R.id.imageButton6);
-        ImageButton buttonB = (ImageButton) findViewById(R.id.imageButton7);
-        //ImageButton buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
+        int soundIdC=R.raw.c;
 
-        buttonE.setActivated(true);
-        buttonE.setPressed(true);
-        buttonE.setBackgroundResource(R.drawable.three_pressed);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.c);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(1000);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(1000);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.g);
+        delay(500);
+        playSoundById(R.raw.g);
+        delay(1000);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.c);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.e);
+        delay(500);
+        playSoundById(R.raw.d);
+        delay(500);
+        playSoundById(R.raw.c);
 
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonC.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(1000);
-        buttonD.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(1000);
-        buttonE.performClick();
-        delay(500);
-        buttonG.performClick();
-        delay(500);
-        buttonG.performClick();
-        delay(1000);
-        buttonE.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonC.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonC.performClick();
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
 
@@ -376,3 +369,5 @@ This function waits a specified amount of time before moving to the next instruc
     }
 
 }
+
+
