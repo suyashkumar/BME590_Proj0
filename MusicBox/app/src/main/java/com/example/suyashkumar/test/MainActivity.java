@@ -8,6 +8,7 @@ TODO: Description
  */
 package com.example.suyashkumar.test;
 
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,11 +23,13 @@ public class MainActivity extends AppCompatActivity {
     int number=0; // Number of times clicked
     String songRecording;
     String origSong;
+    ImageButton buttonC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        buttonC = (ImageButton) findViewById(R.id.imageButton);
     }
 
     @Override
@@ -121,18 +124,44 @@ This function waits a specified amount of time before moving to the next instruc
   */
 
     public void playSoundById(int soundId){
-        MediaPlayer mp = MediaPlayer.create(this,soundId); // Create a new MediaPlayer object
 
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-                mp.release(); // Explicitly release this object when sound finished playing
-            }
-        });
+          //  new Thread(new Runnable() {
+            //    public void run() {
+                    MediaPlayer mp = MediaPlayer.create(this, soundId); // Create a new MediaPlayer object
 
-        mp.start(); // Start playing the selected sound (specified by soundId)
+                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release(); // Explicitly release this object when sound finished playing
+                        }
+                    });
+
+                    mp.start(); // Start playing the selected sound (specified by soundId)
+               // }
+          //  }).start();
+
+
     }
 
+    public void test(View v){
+        // new Thread(new Runnable() {
+         //   public void run() {
 
+
+        //buttonC.setImageResource(R.drawable.one_pressed);
+        buttonC.setSelected(true);
+        buttonC.refreshDrawableState();
+        //buttonC.setSelected(true);
+        //new pressC(buttonC).execute();
+        //buttonC.setActivated(true);
+
+        buttonC.performClick();
+
+
+        delay(500);
+           // }
+       // }).start();
+
+    }
 
     /*
     maryHadALittleLamb
@@ -149,7 +178,11 @@ This function waits a specified amount of time before moving to the next instruc
         ImageButton buttonA = (ImageButton) findViewById(R.id.imageButton6);
         ImageButton buttonB = (ImageButton) findViewById(R.id.imageButton7);
         //ImageButton buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
-        buttonE.performClick();
+
+        buttonE.setActivated(true);
+        buttonE.setPressed(true);
+        buttonE.setBackgroundResource(R.drawable.three_pressed);
+
         delay(500);
         buttonD.performClick();
         delay(500);
@@ -219,8 +252,8 @@ This function waits a specified amount of time before moving to the next instruc
         songRecording = ""; //reset string
         String instructions = "Your turn!";
         TextView text;
-        text = (TextView)findViewById(R.id.text_message);
-        text.setText(instructions);
+        //text = (TextView)findViewById(R.id.text_message);
+        //text.setText(instructions);
 
 
         //int score = finalScore(orig, userIn);
