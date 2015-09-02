@@ -7,8 +7,6 @@ TODO: Description
 @author Amy Zhao
  */
 package com.example.suyashkumar.test;
-
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -174,66 +172,62 @@ This function waits a specified amount of time before moving to the next instruc
     It returns a string containing the correct notes.
      */
     public String maryHadALittleLamb(){
+        new Thread(new Runnable() {
+            public void run() {
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.c);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(1000);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(1000);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.g);
+                delay(500);
+                playSoundById(R.raw.g);
+                delay(1000);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.c);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.c);
+            }
+        }).start();
 
-        ImageButton buttonC = (ImageButton) findViewById(R.id.imageButton);
-        ImageButton buttonD = (ImageButton) findViewById(R.id.imageButton2);
-        ImageButton buttonE = (ImageButton) findViewById(R.id.imageButton3);
-        ImageButton buttonF = (ImageButton) findViewById(R.id.imageButton4);
-        ImageButton buttonG = (ImageButton) findViewById(R.id.imageButton5);
-        ImageButton buttonA = (ImageButton) findViewById(R.id.imageButton6);
-        ImageButton buttonB = (ImageButton) findViewById(R.id.imageButton7);
-        //ImageButton buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
-
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonC.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(1000);
-        buttonD.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(1000);
-        buttonE.performClick();
-        delay(500);
-        buttonG.performClick();
-        delay(500);
-        buttonG.performClick();
-        delay(1000);
-        buttonE.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonC.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonE.performClick();
-        delay(500);
-        buttonD.performClick();
-        delay(500);
-        buttonC.performClick();
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
 
@@ -287,29 +281,6 @@ This function waits a specified amount of time before moving to the next instruc
         float score = finalScore(origSong, userIn);
         System.out.println(score);  //display score for debug
     }
-
-     /*
-    percentScore
-    This function returns a score for the user based on % correct. May be altered later to reflect edit distance.
-    @param orig The original string of notes played in the song
-    @param userIn The string of notes the user plays
-
-
-    public float percentScore(String orig, String userIn){
-       float score = 0;
-       float total = orig.length();
-
-       for(int i = 0; i < total; i++){
-           if(orig.charAt(i)==userIn.charAt(i)){
-               score++;
-           }
-       }
-
-       float percent = (score/total)*100;
-
-       return percent;
-    }
-    */
 
     /*
     finalScore
@@ -373,3 +344,5 @@ This function waits a specified amount of time before moving to the next instruc
     }
 
 }
+
+
