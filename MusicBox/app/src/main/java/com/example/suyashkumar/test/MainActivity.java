@@ -24,18 +24,31 @@ public class MainActivity extends AppCompatActivity {
     String songRecording;
     String origSong;
     ImageButton buttonC;
-    ImageButton buttonE;
     ImageButton buttonD;
+
     HashMap<Integer,Integer> buttonToSound; // Maps button id to R.raw.N id
     HashMap<Integer,String> buttonToNote; // Maps pressed button id to note letter
+
+    ImageButton buttonE;
+    ImageButton buttonF;
+    ImageButton buttonG;
+    ImageButton buttonA;
+    ImageButton buttonB;
+    ImageButton buttonHighC;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         buttonC = (ImageButton) findViewById(R.id.imageButton);
-        buttonE = (ImageButton) findViewById(R.id.imageButton3);
         buttonD = (ImageButton) findViewById(R.id.imageButton2);
+        buttonE = (ImageButton) findViewById(R.id.imageButton3);
+        buttonF = (ImageButton) findViewById(R.id.imageButton4);
+        buttonG = (ImageButton) findViewById(R.id.imageButton5);
+        buttonA = (ImageButton) findViewById(R.id.imageButton6);
+        buttonB = (ImageButton) findViewById(R.id.imageButton7);
+        buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
         initMaps();
     }
     /*
@@ -61,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         buttonToNote.put(R.id.imageButton6,"A");
         buttonToNote.put(R.id.imageButton7,"B");
         buttonToNote.put(R.id.imageButton8,"C");
+
     }
 
     @Override
@@ -253,24 +267,6 @@ This function waits a specified amount of time before moving to the next instruc
         songRecording = ""; //reset string
         String instructions = "Your turn!";
         TextView text;
-        //text = (TextView)findViewById(R.id.text_message);
-        //text.setText(instructions);
-
-
-        //int score = finalScore(orig, userIn);
-
-        //if(startButton.is()){ //1 if start button pressed, 0 o.w.
-        //    String orig = maryHadALittleLamb(); // play mary had a little lamb right now
-           // String orig = playSong(songId); // play whatever song the user chose, implement later if time
-         //   songRecording = ""; //reset string
-            //int score = finalScore(orig, userIn);
-        //}
-        //else{
-         //   String noSong = "Please select a song";
-          //  TextView text;
-            //text = (TextView)findViewById(R.id.text_message);
-            //text.setText(noSong);
-      //  }
     }
 
         /*
@@ -294,7 +290,6 @@ This function waits a specified amount of time before moving to the next instruc
     @param orig The original string of notes played in the song
     @param userIn The string of notes the user plays
      */
-
     public float finalScore(String orig, String userIn){
 
         // add +1 to help with the 0th row and column which should be initialized to all 0s
@@ -350,5 +345,3 @@ This function waits a specified amount of time before moving to the next instruc
     }
 
 }
-
-
