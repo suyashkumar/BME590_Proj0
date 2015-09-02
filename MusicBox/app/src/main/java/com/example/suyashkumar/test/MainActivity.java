@@ -7,11 +7,7 @@ TODO: Description
 @author Amy Zhao
  */
 package com.example.suyashkumar.test;
-
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -175,60 +171,63 @@ This function waits a specified amount of time before moving to the next instruc
     It returns a string containing the correct notes.
      */
     public String maryHadALittleLamb(){
+        new Thread(new Runnable() {
+            public void run() {
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.c);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(1000);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(1000);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.g);
+                delay(500);
+                playSoundById(R.raw.g);
+                delay(1000);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.c);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.e);
+                delay(500);
+                playSoundById(R.raw.d);
+                delay(500);
+                playSoundById(R.raw.c);
+            }
+        }).start();
 
-        int soundIdC=R.raw.c;
 
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.c);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(1000);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(1000);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.g);
-        delay(500);
-        playSoundById(R.raw.g);
-        delay(1000);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.c);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.e);
-        delay(500);
-        playSoundById(R.raw.d);
-        delay(500);
-        playSoundById(R.raw.c);
 
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
@@ -283,7 +282,7 @@ This function waits a specified amount of time before moving to the next instruc
         float score = finalScore(origSong, userIn);
         System.out.println(score);  //display score for debug
     }
-    
+
     /*
     finalScore
     This function returns a score for the user based on % correct (edit distance/orig length)*100
