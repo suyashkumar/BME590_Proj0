@@ -154,6 +154,7 @@ This function waits a specified amount of time before moving to the next instruc
         //buttonC.setImageResource(R.drawable.one_pressed);
         buttonC.setSelected(true);
         buttonC.refreshDrawableState();
+        buttonC.performClick();
         //buttonC.setSelected(true);
         //new pressC(buttonC).execute();
         //buttonC.setActivated(true);
@@ -182,10 +183,6 @@ This function waits a specified amount of time before moving to the next instruc
         ImageButton buttonA = (ImageButton) findViewById(R.id.imageButton6);
         ImageButton buttonB = (ImageButton) findViewById(R.id.imageButton7);
         //ImageButton buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
-
-        buttonE.setActivated(true);
-        buttonE.setPressed(true);
-        buttonE.setBackgroundResource(R.drawable.three_pressed);
 
         delay(500);
         buttonD.performClick();
