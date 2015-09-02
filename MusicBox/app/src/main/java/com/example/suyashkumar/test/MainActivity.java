@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         buttonToSound.put(R.id.imageButton5,R.raw.g);
         buttonToSound.put(R.id.imageButton6,R.raw.a);
         buttonToSound.put(R.id.imageButton7,R.raw.b);
-        buttonToSound.put(R.id.imageButton8,R.raw.c);
+        buttonToSound.put(R.id.imageButton8,R.raw.high_c);
 
         buttonToNote=new HashMap<Integer, String>();
         buttonToNote.put(R.id.imageButton,"C");
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         buttonToNote.put(R.id.imageButton5,"G");
         buttonToNote.put(R.id.imageButton6,"A");
         buttonToNote.put(R.id.imageButton7,"B");
-        buttonToNote.put(R.id.imageButton8,"C");
+        buttonToNote.put(R.id.imageButton8,"HIGH_C");
 
     }
 
