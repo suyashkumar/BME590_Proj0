@@ -22,12 +22,16 @@ public class MainActivity extends AppCompatActivity {
     String songRecording;
     String origSong;
     ImageButton buttonC;
+    ImageButton buttonE;
+    ImageButton buttonD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         buttonC = (ImageButton) findViewById(R.id.imageButton);
+        buttonE = (ImageButton) findViewById(R.id.imageButton3);
+        buttonD = (ImageButton) findViewById(R.id.imageButton2);
     }
 
     @Override
@@ -174,10 +178,28 @@ This function waits a specified amount of time before moving to the next instruc
     public String maryHadALittleLamb(){
         new Thread(new Runnable() {
             public void run() {
+                buttonE.post(new Runnable() {
+                    public void run() {
+                        buttonE.setSelected(true);
+
+                        
+                    }
+                });
                 playSoundById(R.raw.e);
                 delay(500);
+                buttonD.post(new Runnable() {
+                    public void run() {
+                        buttonD.setSelected(true);
+                    }
+                });
                 playSoundById(R.raw.d);
                 delay(500);
+                //buttonC.setSelected(true);
+                buttonC.post(new Runnable() {
+                    public void run() {
+                        buttonC.setSelected(true);
+                    }
+                });
                 playSoundById(R.raw.c);
                 delay(500);
                 playSoundById(R.raw.d);
@@ -330,7 +352,7 @@ This function waits a specified amount of time before moving to the next instruc
     }
 
     /*
-    diff        
+    diff
     This function checks if two characters are the same
     @param i Character i
     @param j Character j
