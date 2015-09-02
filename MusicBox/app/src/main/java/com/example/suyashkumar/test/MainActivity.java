@@ -22,16 +22,26 @@ public class MainActivity extends AppCompatActivity {
     String songRecording;
     String origSong;
     ImageButton buttonC;
-    ImageButton buttonE;
     ImageButton buttonD;
+    ImageButton buttonE;
+    ImageButton buttonF;
+    ImageButton buttonG;
+    ImageButton buttonA;
+    ImageButton buttonB;
+    ImageButton buttonHighC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         buttonC = (ImageButton) findViewById(R.id.imageButton);
-        buttonE = (ImageButton) findViewById(R.id.imageButton3);
         buttonD = (ImageButton) findViewById(R.id.imageButton2);
+        buttonE = (ImageButton) findViewById(R.id.imageButton3);
+        buttonF = (ImageButton) findViewById(R.id.imageButton4);
+        buttonG = (ImageButton) findViewById(R.id.imageButton5);
+        buttonA = (ImageButton) findViewById(R.id.imageButton6);
+        buttonB = (ImageButton) findViewById(R.id.imageButton7);
+        buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
     }
 
     @Override
@@ -307,7 +317,6 @@ This function waits a specified amount of time before moving to the next instruc
     @param orig The original string of notes played in the song
     @param userIn The string of notes the user plays
      */
-
     public float finalScore(String orig, String userIn){
 
         // add +1 to help with the 0th row and column which should be initialized to all 0s
