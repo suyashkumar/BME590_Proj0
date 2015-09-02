@@ -330,7 +330,7 @@ This function waits a specified amount of time before moving to the next instruc
     }
 
     /*
-    diff
+    diff        
     This function checks if two characters are the same
     @param i Character i
     @param j Character j
