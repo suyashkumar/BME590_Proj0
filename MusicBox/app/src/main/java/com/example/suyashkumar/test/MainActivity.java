@@ -283,30 +283,7 @@ This function waits a specified amount of time before moving to the next instruc
         float score = finalScore(origSong, userIn);
         System.out.println(score);  //display score for debug
     }
-
-     /*
-    percentScore
-    This function returns a score for the user based on % correct. May be altered later to reflect edit distance.
-    @param orig The original string of notes played in the song
-    @param userIn The string of notes the user plays
-
-
-    public float percentScore(String orig, String userIn){
-       float score = 0;
-       float total = orig.length();
-
-       for(int i = 0; i < total; i++){
-           if(orig.charAt(i)==userIn.charAt(i)){
-               score++;
-           }
-       }
-
-       float percent = (score/total)*100;
-
-       return percent;
-    }
-    */
-
+    
     /*
     finalScore
     This function returns a score for the user based on % correct (edit distance/orig length)*100
