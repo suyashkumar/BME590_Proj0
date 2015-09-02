@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
     int number=0; // Number of times clicked
     String songRecording;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton buttonC;
     ImageButton buttonE;
     ImageButton buttonD;
+    HashMap<Integer,Integer> buttonToSound; // Maps button id to R.raw.N id
+    HashMap<Integer,String> buttonToNote; // Maps pressed button id to note letter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,31 @@ public class MainActivity extends AppCompatActivity {
         buttonC = (ImageButton) findViewById(R.id.imageButton);
         buttonE = (ImageButton) findViewById(R.id.imageButton3);
         buttonD = (ImageButton) findViewById(R.id.imageButton2);
+        initMaps();
+    }
+    /*
+
+     */
+    private void initMaps(){
+        buttonToSound=new HashMap<Integer,Integer>();
+        buttonToSound.put(R.id.imageButton,R.raw.c);
+        buttonToSound.put(R.id.imageButton2,R.raw.d);
+        buttonToSound.put(R.id.imageButton3,R.raw.e);
+        buttonToSound.put(R.id.imageButton4,R.raw.f);
+        buttonToSound.put(R.id.imageButton5,R.raw.g);
+        buttonToSound.put(R.id.imageButton6,R.raw.a);
+        buttonToSound.put(R.id.imageButton7,R.raw.b);
+        buttonToSound.put(R.id.imageButton8,R.raw.c);
+
+        buttonToNote=new HashMap<Integer, String>();
+        buttonToNote.put(R.id.imageButton,"C");
+        buttonToNote.put(R.id.imageButton2,"D");
+        buttonToNote.put(R.id.imageButton3,"E");
+        buttonToNote.put(R.id.imageButton4,"F");
+        buttonToNote.put(R.id.imageButton5,"G");
+        buttonToNote.put(R.id.imageButton6,"A");
+        buttonToNote.put(R.id.imageButton7,"B");
+        buttonToNote.put(R.id.imageButton8,"C");
     }
 
     @Override
@@ -76,49 +105,9 @@ This function waits a specified amount of time before moving to the next instruc
     @param v The view information from the calling object
      */
     public String playSound(View v) {
-        int soundId=-1; // Default value of soundId
-        //System.out.println(v.getId()); // Print the caller id for debug
-        //System.out.println(R.id.imageButton2);
-        switch(v.getId()){ //Switch over the id to determine who the caller was and set the proper soundId
-            case (R.id.imageButton):
-                soundId=R.raw.c;
-                songRecording+="C";
-                break;
-            case (R.id.imageButton2):
-                soundId=R.raw.d;
-                songRecording+="D";
-                break;
-            case (R.id.imageButton3):
-                soundId=R.raw.e;
-                songRecording+="E";
-                break;
-            case (R.id.imageButton4):
-                soundId=R.raw.f;
-                songRecording+="F";
-                break;
-            case (R.id.imageButton5):
-                soundId=R.raw.g;
-                songRecording+="G";
-                break;
-            case (R.id.imageButton6):
-                soundId=R.raw.a;
-                songRecording+="A";
-                break;
-            case (R.id.imageButton7):
-                soundId=R.raw.b;
-                songRecording+="B";
-                break;
-            case (R.id.imageButton8):
-                soundId=R.raw.high_c;
-                songRecording+="C";
-                break;
-            default:
-                System.exit(0); // If soundId is unchanged, something wrong is calling this function.
-                break;
-        }
-
+        int soundId=buttonToSound.get(v.getId());
+        songRecording+=buttonToNote.get(v.getId());
         playSoundById(soundId);
-
         return songRecording;
     }
 
@@ -178,45 +167,9 @@ This function waits a specified amount of time before moving to the next instruc
     public String maryHadALittleLamb(){
         new Thread(new Runnable() {
             public void run() {
-                buttonE.post(new Runnable() {
-                    public void run() {
-                        buttonE.setSelected(true);
-
-                    }
-                });
-                playSoundById(R.raw.e);
-                delay(500);
-                buttonE.post(new Runnable() {
-                    public void run() {
-                        buttonE.setSelected(false);
-
-                    }
-                });
-                buttonD.post(new Runnable() {
-                    public void run() {
-                        buttonD.setSelected(true);
-                    }
-                });
-                playSoundById(R.raw.d);
-                delay(500);
-                buttonD.post(new Runnable() {
-                    public void run() {
-                        buttonD.setSelected(false);
-                    }
-                });
-                //buttonC.setSelected(true);
-                buttonC.post(new Runnable() {
-                    public void run() {
-                        buttonC.setSelected(true);
-                    }
-                });
-                playSoundById(R.raw.c);
-                delay(500);
-                buttonC.post(new Runnable() {
-                    public void run() {
-                        buttonC.setSelected(false);
-                    }
-                });
+                playAndHighlight(buttonE, 500);
+                playAndHighlight(buttonD, 500);
+                playAndHighlight(buttonC, 500);
                 playSoundById(R.raw.d);
                 delay(500);
                 playSoundById(R.raw.e);
@@ -268,6 +221,22 @@ This function waits a specified amount of time before moving to the next instruc
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
 
+    private void playAndHighlight(final ImageButton button, int delay){
+        button.post(new Runnable() {
+            public void run() {
+                button.setSelected(true);
+            }
+        });
+        playSoundById(buttonToSound.get(button.getId()));
+        delay(delay);
+        button.post(new Runnable() {
+            public void run() {
+                button.setSelected(false);
+            }
+        });
+
+
+    }
 
 
     /*
