@@ -106,6 +106,10 @@ This function waits a specified amount of time before moving to the next instruc
                 soundId=R.raw.b;
                 songRecording+="B";
                 break;
+            case (R.id.imageButton8):
+                soundId=R.raw.high_c;
+                songRecording+="C";
+                break;
             default:
                 System.exit(0); // If soundId is unchanged, something wrong is calling this function.
                 break;
