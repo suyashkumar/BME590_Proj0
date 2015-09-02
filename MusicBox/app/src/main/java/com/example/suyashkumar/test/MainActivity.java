@@ -284,24 +284,6 @@ This function waits a specified amount of time before moving to the next instruc
         songRecording = ""; //reset string
         String instructions = "Your turn!";
         TextView text;
-        //text = (TextView)findViewById(R.id.text_message);
-        //text.setText(instructions);
-
-
-        //int score = finalScore(orig, userIn);
-
-        //if(startButton.is()){ //1 if start button pressed, 0 o.w.
-        //    String orig = maryHadALittleLamb(); // play mary had a little lamb right now
-           // String orig = playSong(songId); // play whatever song the user chose, implement later if time
-         //   songRecording = ""; //reset string
-            //int score = finalScore(orig, userIn);
-        //}
-        //else{
-         //   String noSong = "Please select a song";
-          //  TextView text;
-            //text = (TextView)findViewById(R.id.text_message);
-            //text.setText(noSong);
-      //  }
     }
 
         /*
@@ -381,5 +363,3 @@ This function waits a specified amount of time before moving to the next instruc
     }
 
 }
-
-
