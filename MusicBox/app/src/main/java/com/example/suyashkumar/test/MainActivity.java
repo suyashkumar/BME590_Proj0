@@ -182,11 +182,16 @@ This function waits a specified amount of time before moving to the next instruc
                     public void run() {
                         buttonE.setSelected(true);
 
-                        
                     }
                 });
                 playSoundById(R.raw.e);
                 delay(500);
+                buttonE.post(new Runnable() {
+                    public void run() {
+                        buttonE.setSelected(false);
+
+                    }
+                });
                 buttonD.post(new Runnable() {
                     public void run() {
                         buttonD.setSelected(true);
@@ -194,6 +199,11 @@ This function waits a specified amount of time before moving to the next instruc
                 });
                 playSoundById(R.raw.d);
                 delay(500);
+                buttonD.post(new Runnable() {
+                    public void run() {
+                        buttonD.setSelected(false);
+                    }
+                });
                 //buttonC.setSelected(true);
                 buttonC.post(new Runnable() {
                     public void run() {
@@ -202,6 +212,11 @@ This function waits a specified amount of time before moving to the next instruc
                 });
                 playSoundById(R.raw.c);
                 delay(500);
+                buttonC.post(new Runnable() {
+                    public void run() {
+                        buttonC.setSelected(false);
+                    }
+                });
                 playSoundById(R.raw.d);
                 delay(500);
                 playSoundById(R.raw.e);
