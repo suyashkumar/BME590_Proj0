@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button startButton = (Button) findViewById(R.id.startButtonID);
         Button recordButton = (Button) findViewById(R.id.recordSongID);
-        startButton.setOnClickListener(onClickListener);
-        recordButton.setOnClickListener(onClickListener);
+
     }
     /*
 
@@ -226,9 +225,7 @@ This function waits a specified amount of time before moving to the next instruc
         }).start();
 
         //make score button visible after song played
-        Button score = (Button) findViewById(R.id.recordSongID);
-        score.setVisibility(v.VISIBLE);
-        score.setEnabled(true);
+
 
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
@@ -259,13 +256,14 @@ This function waits a specified amount of time before moving to the next instruc
      */
 
     public void startGame(View v) {
-        Button startButton = (Button) findViewById(R.id.startButtonID); // find the button on the view
+        //Button startButton = (Button) findViewById(R.id.startButtonID); // find the button on the view
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         // String orig = playSong(songId); // play whatever song the user chose, implement later if time
         songRecording = ""; //reset string
         TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
         msgDisplay.setText("Your turn!");
         msgDisplay.setVisibility(v.VISIBLE);
+
     }
 
         /*
@@ -293,9 +291,9 @@ This function waits a specified amount of time before moving to the next instruc
         scoreNum.setText(out);
         scoreNum.setVisibility(v.VISIBLE);
 
-        Button reset = (Button) findViewById(R.id.resetButton);
-        reset.setVisibility(v.VISIBLE);
-        reset.setEnabled(true);
+        //Button reset = (Button) findViewById(R.id.resetButton);
+        //reset.setVisibility(v.VISIBLE);
+        //reset.setEnabled(true);
 
         System.out.println(score);  //display score for debug
     }
@@ -409,14 +407,20 @@ This function waits a specified amount of time before moving to the next instruc
         switch (cur) {
             case 0:
                 b.setText("Good Luck!");
+                // Start the game
+                startGame(v);
+                b.setText("Score Me");
                 state = 1;
                 break;
             case 1:
-                b.setText("Score Me");
+                //b.setText("Score Me");
+                recordSong(v);
                 state = 2;
+                b.setText("Reset");
                 break;
             case 2:
-                b.setText("Reset");
+                //b.setText("Reset");
+                // Do reset-y stuff here 
                 state = 3;
                 break;
             case 3:
