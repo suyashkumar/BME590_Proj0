@@ -226,6 +226,8 @@ This function waits a specified amount of time before moving to the next instruc
                         TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
                         msgDisplay.setText("Your turn!");
                         msgDisplay.setVisibility(v.VISIBLE);
+                        Button b = (Button) findViewById(R.id.startButtonID);
+                        b.setText("Score Me");
                     }
                 });
 
@@ -423,7 +425,6 @@ This function waits a specified amount of time before moving to the next instruc
                 b.setText("Good Luck!");
                 // Start the game
                 startGame(v);
-                b.setText("Score Me");
                 state = 1;
                 break;
             case 1:
@@ -436,7 +437,7 @@ This function waits a specified amount of time before moving to the next instruc
                 //b.setText("Reset");
                 // Do reset-y stuff here
                 songRecording = "";
-                
+
                 TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
                 msgDisplay.setVisibility(v.INVISIBLE);
 
