@@ -219,10 +219,6 @@ This function waits a specified amount of time before moving to the next instruc
                 playAndHighlight(buttonD, 500);
                 playAndHighlight(buttonE, 500);
                 playAndHighlight(buttonD, 500);
-                playAndHighlight(buttonC, 500);
-                TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-                msgDisplay.setText("Your turn!");
-                //msgDisplay.setVisibility(v.VISIBLE);
             }
         }).start();
 
@@ -342,6 +338,10 @@ This function waits a specified amount of time before moving to the next instruc
         float score = 100 - percentWrong;
 
         int ret = (int) Math.floor(score);
+        if (ret < 0){
+            ret = 0;
+        }
+
         return ret;
     }
 
@@ -423,6 +423,13 @@ This function waits a specified amount of time before moving to the next instruc
                 //b.setText("Reset");
                 // Do reset-y stuff here
                 songRecording = "";
+                
+                TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+                msgDisplay.setVisibility(v.INVISIBLE);
+
+                TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
+                scoreNum.setVisibility(v.INVISIBLE);
+
                 b.setText("Start Game");
                 state = 0;
                 break;
