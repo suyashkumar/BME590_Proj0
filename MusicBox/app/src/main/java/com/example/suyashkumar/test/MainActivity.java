@@ -220,11 +220,14 @@ This function waits a specified amount of time before moving to the next instruc
                 playAndHighlight(buttonE, 500);
                 playAndHighlight(buttonD, 500);
                 playAndHighlight(buttonC, 500);
-
+                TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+                msgDisplay.setText("Your turn!");
+                //msgDisplay.setVisibility(v.VISIBLE);
             }
         }).start();
 
         //make score button visible after song played
+
 
 
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
@@ -260,9 +263,7 @@ This function waits a specified amount of time before moving to the next instruc
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         // String orig = playSong(songId); // play whatever song the user chose, implement later if time
         songRecording = ""; //reset string
-        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-        msgDisplay.setText("Your turn!");
-        msgDisplay.setVisibility(v.VISIBLE);
+
 
     }
 
@@ -420,10 +421,8 @@ This function waits a specified amount of time before moving to the next instruc
                 break;
             case 2:
                 //b.setText("Reset");
-                // Do reset-y stuff here 
-                state = 3;
-                break;
-            case 3:
+                // Do reset-y stuff here
+                songRecording = "";
                 b.setText("Start Game");
                 state = 0;
                 break;
