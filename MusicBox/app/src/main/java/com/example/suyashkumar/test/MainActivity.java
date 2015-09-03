@@ -226,6 +226,11 @@ This function waits a specified amount of time before moving to the next instruc
         }).start();
 
         //make score button visible after song played
+
+        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+        msgDisplay.setText("Your turn!");
+        msgDisplay.setVisibility(v.VISIBLE);
+
         Button score = (Button) findViewById(R.id.recordSongID);
         score.setVisibility(v.VISIBLE);
         score.setEnabled(true);
@@ -263,9 +268,7 @@ This function waits a specified amount of time before moving to the next instruc
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         // String orig = playSong(songId); // play whatever song the user chose, implement later if time
         songRecording = ""; //reset string
-        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-        msgDisplay.setText("Your turn!");
-        msgDisplay.setVisibility(v.VISIBLE);
+
     }
 
         /*
