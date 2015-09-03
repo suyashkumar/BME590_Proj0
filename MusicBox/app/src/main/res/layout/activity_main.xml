@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="You got:"
-            android:id="@+id/scoreMsg"
+            android:id="@+id/msgDisplay"
             android:layout_gravity="center_horizontal"
             android:visibility="invisible"/>
 
