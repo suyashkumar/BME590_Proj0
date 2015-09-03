@@ -16,8 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
-
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -194,6 +192,14 @@ This function waits a specified amount of time before moving to the next instruc
     public String maryHadALittleLamb(final View v) {
         new Thread(new Runnable() {
             public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+                        msgDisplay.setText("Wait and listen!");
+                        msgDisplay.setVisibility(v.VISIBLE);
+                    }
+                });
                 playAndHighlight(buttonE, 500);
                 playAndHighlight(buttonD, 500);
                 playAndHighlight(buttonC, 500);
