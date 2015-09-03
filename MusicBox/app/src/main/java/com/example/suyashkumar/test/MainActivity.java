@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
     ImageButton buttonB;
     ImageButton buttonHighC;
 
+    // state = 0: free play --> button: start game
+    // state = 1: in game --> button: good luck
+    // state = 2: song done --> button: score me
+    // state = 2: done scoring --> button: reset
+    int state;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         buttonB = (ImageButton) findViewById(R.id.imageButton7);
         buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
         initMaps();
+
+        state = 0;
 
         Button startButton = (Button) findViewById(R.id.startButtonID);
         Button recordButton = (Button) findViewById(R.id.recordSongID);
@@ -350,9 +358,12 @@ This function waits a specified amount of time before moving to the next instruc
         }
     }
 
+
+
     /*
     onClickListener determines what each button does when clicked
      */
+    /*
     private OnClickListener onClickListener = new OnClickListener() {
 
         @Override
@@ -387,6 +398,30 @@ This function waits a specified amount of time before moving to the next instruc
                     break;
             }
         }
-    };
+    };*/
+
+    public void buttonClick(View v) {
+        int cur = state;
+        Button b = (Button) findViewById(R.id.startButtonID);
+
+        switch (cur) {
+            case 0:
+                b.setText("Good Luck!");
+                state = 1;
+                break;
+            case 1:
+                b.setText("Score Me");
+                state = 2;
+                break;
+            case 2:
+                b.setText("Reset");
+                state = 3;
+                break;
+            case 3:
+                b.setText("Start Game");
+                state = 0;
+                break;
+        }
+    }
 
 }
