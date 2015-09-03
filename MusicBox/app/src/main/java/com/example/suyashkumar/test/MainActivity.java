@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initMaps(){
         buttonToSound=new HashMap<Integer,Integer>();
-        buttonToSound.put(R.id.imageButton,R.raw.c);
+        buttonToSound.put(R.id.imageButton, R.raw.c);
         buttonToSound.put(R.id.imageButton2,R.raw.d);
         buttonToSound.put(R.id.imageButton3,R.raw.e);
         buttonToSound.put(R.id.imageButton4,R.raw.f);
@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
         buttonToSound.put(R.id.imageButton8,R.raw.high_c);
 
         buttonToNote=new HashMap<Integer, String>();
-        buttonToNote.put(R.id.imageButton,"C");
+        buttonToNote.put(R.id.imageButton, "C");
         buttonToNote.put(R.id.imageButton2,"D");
         buttonToNote.put(R.id.imageButton3,"E");
         buttonToNote.put(R.id.imageButton4,"F");
         buttonToNote.put(R.id.imageButton5,"G");
         buttonToNote.put(R.id.imageButton6,"A");
-        buttonToNote.put(R.id.imageButton7,"B");
-        buttonToNote.put(R.id.imageButton8,"HIGH_C");
+        buttonToNote.put(R.id.imageButton7, "B");
+        buttonToNote.put(R.id.imageButton8, "HIGH_C");
 
     }
 
@@ -372,19 +372,25 @@ This function waits a specified amount of time before moving to the next instruc
         }
     }
 
+    /*
+    onClickListener determines what each button does when clicked
+     */
     private OnClickListener onClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
-           if (v.getId() == R.id.startButtonID) {
-                Button b = (Button) findViewById(R.id.startButtonID);
-                b.setText("Good luck!");
-                Button score = (Button) findViewById(R.id.recordSongID);
-                score.setVisibility(v.VISIBLE);
-                startGame(v);
-            }
-            if (v.getId() == R.id.recordSongID) {
-                recordSong(v);
+            int id = v.getId();
+            switch (id) {
+                case R.id.startButtonID:
+                    Button b = (Button) findViewById(R.id.startButtonID);
+                    b.setText("Good luck!");
+                    Button score = (Button) findViewById(R.id.recordSongID);
+                    score.setVisibility(v.VISIBLE);
+                    startGame(v);
+                    break;
+                case R.id.recordSongID:
+                    recordSong(v);
+                break;
             }
         }
     };
