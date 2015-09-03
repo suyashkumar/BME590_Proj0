@@ -227,7 +227,7 @@ This function waits a specified amount of time before moving to the next instruc
     This function plays a maryHadALittleLamb, and lights up the corresponding keys.
     It returns a string containing the correct notes.
      */
-    public String maryHadALittleLamb() {
+    public String maryHadALittleLamb(View v) {
         new Thread(new Runnable() {
             public void run() {
                 playAndHighlight(buttonE, 500);
@@ -295,7 +295,7 @@ This function waits a specified amount of time before moving to the next instruc
 
     public void startGame(View v) {
         Button startButton = (Button) findViewById(R.id.startButtonID); // find the button on the view
-        origSong = maryHadALittleLamb(); // play mary had a little lamb right now
+        origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         // String orig = playSong(songId); // play whatever song the user chose, implement later if time
         songRecording = ""; //reset string
         String instructions = "Your turn!";
@@ -375,7 +375,7 @@ This function waits a specified amount of time before moving to the next instruc
         float percentWrong = editDist / ((float) origLen) * 100;
         float score = 100 - percentWrong;
 
-        int ret = floor(score);
+        int ret = (int) Math.floor(score);
         return ret;
     }
 
@@ -425,7 +425,7 @@ This function waits a specified amount of time before moving to the next instruc
                     Button score = (Button) findViewById(R.id.recordSongID);
                     score.setVisibility(v.INVISIBLE);
                     score.setEnabled(false);
-                    
+
                     songRecording = "";
             }
         }
