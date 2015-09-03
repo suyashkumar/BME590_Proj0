@@ -276,6 +276,7 @@ This function waits a specified amount of time before moving to the next instruc
 
         TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
         msgDisplay.setVisibility(v.VISIBLE);
+        msgDisplay.setText("You got:");
 
         String s = Integer.toString(score);
         String out = s + "%";
