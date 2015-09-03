@@ -263,6 +263,7 @@ This function waits a specified amount of time before moving to the next instruc
         //make score button visible after song played
         Button score = (Button) findViewById(R.id.recordSongID);
         score.setVisibility(v.VISIBLE);
+        score.setEnabled(true);
 
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
@@ -315,16 +316,20 @@ This function waits a specified amount of time before moving to the next instruc
 
         int score = finalScore(origSong, userIn);
 
-        Button scoreMsg = (Button) findViewById(R.id.scoreMsg);
-        scoreMsg.setVisibility(0);
+        TextView scoreMsg = (TextView) findViewById(R.id.scoreMsg);
+        scoreMsg.setVisibility(v.VISIBLE);
 
         String s = Integer.toString(score);
         String out = s + "%";
 
-        Button scoreNum = (Button) findViewById(R.id.scoreNum);
+        TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
         scoreNum.setText(out);
-        scoreNum.setVisibility(0);
-        
+        scoreNum.setVisibility(v.VISIBLE);
+
+        Button reset = (Button) findViewById(R.id.resetButton);
+        reset.setVisibility(v.VISIBLE);
+        reset.setEnabled(true);
+
         System.out.println(score);  //display score for debug
     }
 
@@ -404,7 +409,24 @@ This function waits a specified amount of time before moving to the next instruc
                     break;
                 case R.id.recordSongID:
                     recordSong(v);
-                break;
+                    break;
+                case R.id.resetButton:
+                    // clear score messages, set reset button to invisible, disabled, set score button to invisible, disabled, reset global var
+                    TextView scoreMsg = (TextView) findViewById(R.id.scoreMsg);
+                    scoreMsg.setVisibility(v.INVISIBLE);
+
+                    TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
+                    scoreNum.setVisibility(v.INVISIBLE);
+
+                    Button reset = (Button) findViewById(R.id.resetButton);
+                    reset.setVisibility(v.INVISIBLE);
+                    reset.setEnabled(false);
+
+                    Button score = (Button) findViewById(R.id.recordSongID);
+                    score.setVisibility(v.INVISIBLE);
+                    score.setEnabled(false);
+                    
+                    songRecording = "";
             }
         }
     };
