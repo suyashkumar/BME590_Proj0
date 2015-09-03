@@ -16,11 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    int number=0; // Number of times clicked
+    int number = 0; // Number of times clicked
     String songRecording;
     String origSong;
     ImageButton buttonC;
@@ -50,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
         buttonB = (ImageButton) findViewById(R.id.imageButton7);
         buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
         initMaps();
+
+        Button startButton = (Button) findViewById(R.id.startButtonID);
+        Button recordButton = (Button) findViewById(R.id.recordSongID);
+        startButton.setOnClickListener(onClickListener);
+        recordButton.setOnClickListener(onClickListener);
     }
     /*
 
@@ -105,7 +111,7 @@ delay
 This function waits a specified amount of time before moving to the next instruction.
 @param time The time in ms to delay
 */
-    public void delay(int time){
+    public void delay(int time) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException ie) {
@@ -121,6 +127,49 @@ This function waits a specified amount of time before moving to the next instruc
     public String playSound(View v) {
         int soundId=buttonToSound.get(v.getId());
         songRecording+=buttonToNote.get(v.getId());
+        /*
+        int soundId = -1; // Default value of soundId
+        //System.out.println(v.getId()); // Print the caller id for debug
+        //System.out.println(R.id.imageButton2);
+        switch (v.getId()) { //Switch over the id to determine who the caller was and set the proper soundId
+            case (R.id.imageButton):
+                soundId = R.raw.c;
+                songRecording += "C";
+                break;
+            case (R.id.imageButton2):
+                soundId = R.raw.d;
+                songRecording += "D";
+                break;
+            case (R.id.imageButton3):
+                soundId = R.raw.e;
+                songRecording += "E";
+                break;
+            case (R.id.imageButton4):
+                soundId = R.raw.f;
+                songRecording += "F";
+                break;
+            case (R.id.imageButton5):
+                soundId = R.raw.g;
+                songRecording += "G";
+                break;
+            case (R.id.imageButton6):
+                soundId = R.raw.a;
+                songRecording += "A";
+                break;
+            case (R.id.imageButton7):
+                soundId = R.raw.b;
+                songRecording += "B";
+                break;
+            case (R.id.imageButton8):
+                soundId = R.raw.high_c;
+                songRecording += "C";
+                break;
+            default:
+                System.exit(0); // If soundId is unchanged, something wrong is calling this function.
+                break;
+        }
+
+        */
         playSoundById(soundId);
         return songRecording;
     }
@@ -132,28 +181,28 @@ This function waits a specified amount of time before moving to the next instruc
  @param soundId The integer corresponding to the soundID for the note .wav file being played.
   */
 
-    public void playSoundById(int soundId){
+    public void playSoundById(int soundId) {
 
-          //  new Thread(new Runnable() {
-            //    public void run() {
-                    MediaPlayer mp = MediaPlayer.create(this, soundId); // Create a new MediaPlayer object
+        //  new Thread(new Runnable() {
+        //    public void run() {
+        MediaPlayer mp = MediaPlayer.create(this, soundId); // Create a new MediaPlayer object
 
-                    mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        public void onCompletion(MediaPlayer mp) {
-                            mp.release(); // Explicitly release this object when sound finished playing
-                        }
-                    });
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.release(); // Explicitly release this object when sound finished playing
+            }
+        });
 
-                    mp.start(); // Start playing the selected sound (specified by soundId)
-               // }
-          //  }).start();
+        mp.start(); // Start playing the selected sound (specified by soundId)
+        // }
+        //  }).start();
 
 
     }
 
-    public void test(View v){
+    public void test(View v) {
         // new Thread(new Runnable() {
-         //   public void run() {
+        //   public void run() {
 
 
         //buttonC.setImageResource(R.drawable.one_pressed);
@@ -168,8 +217,8 @@ This function waits a specified amount of time before moving to the next instruc
 
 
         delay(500);
-           // }
-       // }).start();
+        // }
+        // }).start();
 
     }
 
@@ -178,7 +227,7 @@ This function waits a specified amount of time before moving to the next instruc
     This function plays a maryHadALittleLamb, and lights up the corresponding keys.
     It returns a string containing the correct notes.
      */
-    public String maryHadALittleLamb(){
+    public String maryHadALittleLamb() {
         new Thread(new Runnable() {
             public void run() {
                 playAndHighlight(buttonE, 500);
@@ -239,7 +288,7 @@ This function waits a specified amount of time before moving to the next instruc
     @param v The view information from the calling object
      */
 
-    public void startGame(View v){
+    public void startGame(View v) {
         Button startButton = (Button) findViewById(R.id.startButtonID); // find the button on the view
         origSong = maryHadALittleLamb(); // play mary had a little lamb right now
         // String orig = playSong(songId); // play whatever song the user chose, implement later if time
@@ -255,7 +304,7 @@ This function waits a specified amount of time before moving to the next instruc
     @param v The view information from the calling object
      */
 
-    public void recordSong(View v){
+    public void recordSong(View v) {
         Button recordSongButton = (Button) findViewById(R.id.recordSongID); // find the button on the view
         System.out.println(songRecording);  //display recorded string for debug
         String userIn = songRecording;
@@ -269,44 +318,44 @@ This function waits a specified amount of time before moving to the next instruc
     @param orig The original string of notes played in the song
     @param userIn The string of notes the user plays
      */
-    public float finalScore(String orig, String userIn){
 
-        // add +1 to help with the 0th row and column which should be initialized to all 0s
+    public int finalScore(String orig, String userIn) {
         int origLen = orig.length();
         int userLen = userIn.length();
 
-        if(userLen==0){
+        if (userLen == 0) {
             return 0;
         }
 
         Integer[][] table = new Integer[origLen][userLen];
 
         // initialize 0th row and 0th column to all 0s
-        for(int i=0; i < origLen; i++){
-            for(int j=0; j < userLen; j++){
-                int d = diff(orig.charAt(i),userIn.charAt(j));
+        for (int i = 0; i < origLen; i++) {
+            for (int j = 0; j < userLen; j++) {
+                int d = diff(orig.charAt(i), userIn.charAt(j));
 
-                if(i==0){
-                    if(j==0){
+                if (i == 0) {
+                    if (j == 0) {
                         table[i][j] = d;
-                    }else{
-                        table[i][j] = d+table[i][j-1];
+                    } else {
+                        table[i][j] = d + table[i][j - 1];
                     }
-                }else if(j==0){
-                    table[i][j] = d+table[i-1][j];
-                }else{
-                    int interMin = Math.min(1+table[i-1][j],1+table[i][j-1]);
-                    int realMin = Math.min(interMin,d+table[i-1][j-1]);
+                } else if (j == 0) {
+                    table[i][j] = d + table[i - 1][j];
+                } else {
+                    int interMin = Math.min(1 + table[i - 1][j], 1 + table[i][j - 1]);
+                    int realMin = Math.min(interMin, d + table[i - 1][j - 1]);
                     table[i][j] = realMin;
                 }
             }
         }
 
-        int editDist = table[origLen-1][userLen-1];
-        float percentWrong = editDist/((float) origLen)*100;
-        float score = 100-percentWrong;
+        int editDist = table[origLen - 1][userLen - 1];
+        float percentWrong = editDist / ((float) origLen) * 100;
+        float score = 100 - percentWrong;
 
-        return score;
+        int ret = floor(score);
+        return ret;
     }
 
     /*
@@ -315,12 +364,29 @@ This function waits a specified amount of time before moving to the next instruc
     @param i Character i
     @param j Character j
      */
-    public int diff(char i, char j){
-        if(i==j){
+    public int diff(char i, char j) {
+        if (i == j) {
             return 0;
-        }else{
+        } else {
             return 1;
         }
     }
+
+    private OnClickListener onClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+           if (v.getId() == R.id.startButtonID) {
+                Button b = (Button) findViewById(R.id.startButtonID);
+                b.setText("Good luck!");
+                Button score = (Button) findViewById(R.id.recordSongID);
+                score.setVisibility(v.VISIBLE);
+                startGame(v);
+            }
+            if (v.getId() == R.id.recordSongID) {
+                recordSong(v);
+            }
+        }
+    };
 
 }
