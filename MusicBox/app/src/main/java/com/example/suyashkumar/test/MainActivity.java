@@ -213,7 +213,7 @@ This function waits a specified amount of time before moving to the next instruc
                 playAndHighlight(buttonE, 500);
                 playAndHighlight(buttonD, 500);
                 playAndHighlight(buttonC, 500);
-                
+
             }
         }).start();
 
