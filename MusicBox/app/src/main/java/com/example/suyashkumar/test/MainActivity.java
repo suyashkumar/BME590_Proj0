@@ -20,14 +20,15 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     int number = 0; // Number of times clicked
-    String songRecording;
-    String origSong;
-    ImageButton buttonC;
-    ImageButton buttonD;
+
+    String songRecording; // String of notes that user has input
+    String origSong; // String of notes from original song
 
     HashMap<Integer,Integer> buttonToSound; // Maps button id to R.raw.N id
     HashMap<Integer,String> buttonToNote; // Maps pressed button id to note letter
 
+    ImageButton buttonC;
+    ImageButton buttonD;
     ImageButton buttonE;
     ImageButton buttonF;
     ImageButton buttonG;
@@ -36,11 +37,9 @@ public class MainActivity extends AppCompatActivity {
     ImageButton buttonHighC;
 
     // state = 0: free play --> button: start game
-    // state = 1: in game --> button: good luck
-    // state = 2: song done --> button: score me
+    // state = 1: in game --> button: good luck -> score me
     // state = 2: done scoring --> button: reset
     int state;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
         buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
         initMaps();
 
+        // Initialize state
         state = 0;
-
     }
+
     /*
     initMaps
     This function initializes two hashmaps. buttontoSound maps imageButton IDs to sound IDs.
@@ -111,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     /*
-delay
-This function waits a specified amount of time before moving to the next instruction.
-@param time The time in ms to delay
-*/
+    delay
+    This function waits a specified amount of time before moving to the next instruction.
+    @param time The time in ms to delay
+    */
     public void delay(int time) {
         try {
             Thread.sleep(time);
@@ -136,12 +136,11 @@ This function waits a specified amount of time before moving to the next instruc
     }
 
 
-        /*
- playSoundById
- This function plays a piano sound based on the soundID (resource id) passed from playSound.
- @param soundId The integer corresponding to the soundID for the note .wav file being played.
-  */
-
+    /*
+    playSoundById
+    This function plays a piano sound based on the soundID (resource id) passed from playSound.
+    @param soundId The integer corresponding to the soundID for the note .wav file being played.
+    */
     public void playSoundById(int soundId) {
 
         MediaPlayer mp = MediaPlayer.create(this, soundId); // Create a new MediaPlayer object
@@ -160,8 +159,10 @@ This function waits a specified amount of time before moving to the next instruc
     maryHadALittleLamb
     This function plays a maryHadALittleLamb, and lights up the corresponding keys.
     It returns a string containing the correct notes.
+    @param v The view information from the calling object
      */
     public String maryHadALittleLamb(final View v) {
+        // Play song in separate thread
         new Thread(new Runnable() {
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -198,6 +199,8 @@ This function waits a specified amount of time before moving to the next instruc
                 playAndHighlight(buttonE, 500);
                 playAndHighlight(buttonD, 500);
                 playAndHighlight(buttonC, 500);
+
+                // Update messages and buttons on UI after song finishes
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -246,31 +249,24 @@ This function waits a specified amount of time before moving to the next instruc
     then call the recordSong method and determine a score.
     @param v The view information from the calling object
      */
-
     public void startGame(View v) {
-        //Button startButton = (Button) findViewById(R.id.startButtonID); // find the button on the view
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
-        // String orig = playSong(songId); // play whatever song the user chose, implement later if time
         songRecording = ""; //reset string
-/*        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-        msgDisplay.setText("Your turn!");
-        msgDisplay.setVisibility(v.VISIBLE);*/
-
-
     }
 
-        /*
+    /*
     recordSong
     This function ends the game once the user has finished playing their song. It will
-    then user input, then compare that to the original notes them to determine a score
+    then user input, then compare that to the original notes them to determine a score.
     @param v The view information from the calling object
      */
-
     public void recordSong(View v) {
-        String userIn = songRecording;
+       // String userIn = songRecording;
 
-        int score = finalScore(origSong, userIn);
+        // Get score
+        int score = finalScore(origSong, songRecording);
 
+        // Display score
         TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
         msgDisplay.setVisibility(v.VISIBLE);
         msgDisplay.setText("You got:");
@@ -281,7 +277,6 @@ This function waits a specified amount of time before moving to the next instruc
         TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
         scoreNum.setText(out);
         scoreNum.setVisibility(v.VISIBLE);
-
     }
 
     /*
@@ -290,7 +285,6 @@ This function waits a specified amount of time before moving to the next instruc
     @param orig The original string of notes played in the song
     @param userIn The string of notes the user plays
      */
-
     public int finalScore(String orig, String userIn) {
         int origLen = orig.length();
         int userLen = userIn.length();
@@ -301,7 +295,6 @@ This function waits a specified amount of time before moving to the next instruc
 
         Integer[][] table = new Integer[origLen][userLen];
 
-        // initialize 0th row and 0th column to all 0s
         for (int i = 0; i < origLen; i++) {
             for (int j = 0; j < userLen; j++) {
                 int d = diff(orig.charAt(i), userIn.charAt(j));
@@ -348,13 +341,12 @@ This function waits a specified amount of time before moving to the next instruc
         }
     }
 
-/*    buttonClick
+    /*
+    buttonClick
     This function sets the button text and calls the appropriate functions based on the value of the
     state variable.
     @param v The view information from the calling object.
-
     */
-
         public void buttonClick(View v) {
         int cur = state;
         Button b = (Button) findViewById(R.id.startButtonID);
