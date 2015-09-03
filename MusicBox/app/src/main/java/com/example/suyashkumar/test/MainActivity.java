@@ -227,6 +227,7 @@ This function waits a specified amount of time before moving to the next instruc
                         msgDisplay.setText("Your turn!");
                         msgDisplay.setVisibility(v.VISIBLE);
                         Button b = (Button) findViewById(R.id.startButtonID);
+                        b.setEnabled(true);
                         b.setText("Score Me");
                     }
                 });
@@ -424,6 +425,7 @@ This function waits a specified amount of time before moving to the next instruc
             case 0:
                 b.setText("Good Luck!");
                 // Start the game
+                b.setEnabled(false);
                 startGame(v);
                 state = 1;
                 break;
