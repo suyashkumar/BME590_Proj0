@@ -20,21 +20,10 @@
             android:layout_height="wrap_content"
             android:text="Start Game"
             android:id="@+id/startButtonID"
-            android:onClick="startGame"
+            android:onClick="buttonClick"
             android:singleLine="false"
             android:layout_below="@+id/recordSongID"
             android:layout_centerHorizontal="true" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Score me!"
-            android:id="@+id/recordSongID"
-            android:onClick="recordSong"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:enabled="false"
-            android:visibility="invisible"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,15 +39,6 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/scoreNum"
-            android:layout_gravity="center_horizontal"
-            android:visibility="invisible"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset"
-            android:id="@+id/resetButton"
-            android:enabled="false"
             android:layout_gravity="center_horizontal"
             android:visibility="invisible"/>
 
