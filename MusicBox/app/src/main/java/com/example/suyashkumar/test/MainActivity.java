@@ -263,8 +263,9 @@ This function waits a specified amount of time before moving to the next instruc
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         // String orig = playSong(songId); // play whatever song the user chose, implement later if time
         songRecording = ""; //reset string
-        String instructions = "Your turn!";
-        TextView text;
+        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+        msgDisplay.setText("Your turn!");
+        msgDisplay.setVisibility(v.VISIBLE);
     }
 
         /*
@@ -281,8 +282,9 @@ This function waits a specified amount of time before moving to the next instruc
 
         int score = finalScore(origSong, userIn);
 
-        TextView scoreMsg = (TextView) findViewById(R.id.scoreMsg);
-        scoreMsg.setVisibility(v.VISIBLE);
+        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+        msgDisplay.setVisibility(v.VISIBLE);
+        msgDisplay.setText("You got:");
 
         String s = Integer.toString(score);
         String out = s + "%";
@@ -380,8 +382,8 @@ This function waits a specified amount of time before moving to the next instruc
                     break;
                 case R.id.resetButton:
                     // clear score messages, set reset button to invisible, disabled, set score button to invisible, disabled, reset global var
-                    TextView scoreMsg = (TextView) findViewById(R.id.scoreMsg);
-                    scoreMsg.setVisibility(v.INVISIBLE);
+                    TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+                    msgDisplay.setVisibility(v.INVISIBLE);
 
                     TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
                     scoreNum.setVisibility(v.INVISIBLE);
