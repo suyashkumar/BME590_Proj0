@@ -58,12 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
         state = 0;
 
-        Button startButton = (Button) findViewById(R.id.startButtonID);
-        Button recordButton = (Button) findViewById(R.id.recordSongID);
-
     }
     /*
-
+    initMaps
+    This function initializes two hashmaps. buttontoSound maps imageButton IDs to sound IDs.
+    buttonToNote maps imageButtonIDs to a string containing the note being played.
      */
     private void initMaps(){
         buttonToSound=new HashMap<Integer,Integer>();
@@ -145,8 +144,6 @@ This function waits a specified amount of time before moving to the next instruc
 
     public void playSoundById(int soundId) {
 
-        //  new Thread(new Runnable() {
-        //    public void run() {
         MediaPlayer mp = MediaPlayer.create(this, soundId); // Create a new MediaPlayer object
 
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -156,31 +153,6 @@ This function waits a specified amount of time before moving to the next instruc
         });
 
         mp.start(); // Start playing the selected sound (specified by soundId)
-        // }
-        //  }).start();
-
-
-    }
-
-    public void test(View v) {
-        // new Thread(new Runnable() {
-        //   public void run() {
-
-
-        //buttonC.setImageResource(R.drawable.one_pressed);
-        buttonC.setSelected(true);
-        buttonC.refreshDrawableState();
-        buttonC.performClick();
-        //buttonC.setSelected(true);
-        //new pressC(buttonC).execute();
-        //buttonC.setActivated(true);
-
-        buttonC.performClick();
-
-
-        delay(500);
-        // }
-        // }).start();
 
     }
 
@@ -241,13 +213,17 @@ This function waits a specified amount of time before moving to the next instruc
             }
         }).start();
 
-        //make score button visible after song played
-
-
-
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
 
+
+    /*
+    playAndHighlight
+    This function plays the sound and highlights the key corresponding to given button, followed by
+    a specified delay time.
+    @param button The ImageButton object to be played.
+    @param delay The delay time in ms to follow the sound.
+     */
     private void playAndHighlight(final ImageButton button, int delay){
         button.post(new Runnable() {
             public void run() {
@@ -261,8 +237,6 @@ This function waits a specified amount of time before moving to the next instruc
                 button.setSelected(false);
             }
         });
-
-
     }
 
 
@@ -293,8 +267,6 @@ This function waits a specified amount of time before moving to the next instruc
      */
 
     public void recordSong(View v) {
-        Button recordSongButton = (Button) findViewById(R.id.recordSongID); // find the button on the view
-        System.out.println(songRecording);  //display recorded string for debug
         String userIn = songRecording;
 
         int score = finalScore(origSong, userIn);
@@ -310,11 +282,6 @@ This function waits a specified amount of time before moving to the next instruc
         scoreNum.setText(out);
         scoreNum.setVisibility(v.VISIBLE);
 
-        //Button reset = (Button) findViewById(R.id.resetButton);
-        //reset.setVisibility(v.VISIBLE);
-        //reset.setEnabled(true);
-
-        System.out.println(score);  //display score for debug
     }
 
     /*
@@ -381,49 +348,14 @@ This function waits a specified amount of time before moving to the next instruc
         }
     }
 
+/*    buttonClick
+    This function sets the button text and calls the appropriate functions based on the value of the
+    state variable.
+    @param v The view information from the calling object.
 
+    */
 
-    /*
-    onClickListener determines what each button does when clicked
-     */
-    /*
-    private OnClickListener onClickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            switch (id) {
-                case R.id.startButtonID:
-                    Button b = (Button) findViewById(R.id.startButtonID);
-                    b.setText("Good luck!");
-                    startGame(v);
-                    break;
-                case R.id.recordSongID:
-                    recordSong(v);
-                    break;
-                case R.id.resetButton:
-                    // clear score messages, set reset button to invisible, disabled, set score button to invisible, disabled, reset global var
-                    TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-                    msgDisplay.setVisibility(v.INVISIBLE);
-
-                    TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
-                    scoreNum.setVisibility(v.INVISIBLE);
-
-                    Button reset = (Button) findViewById(R.id.resetButton);
-                    reset.setVisibility(v.INVISIBLE);
-                    reset.setEnabled(false);
-
-                    Button score = (Button) findViewById(R.id.recordSongID);
-                    score.setVisibility(v.INVISIBLE);
-                    score.setEnabled(false);
-
-                    songRecording = "";
-                    break;
-            }
-        }
-    };*/
-
-    public void buttonClick(View v) {
+        public void buttonClick(View v) {
         int cur = state;
         Button b = (Button) findViewById(R.id.startButtonID);
 
@@ -436,14 +368,11 @@ This function waits a specified amount of time before moving to the next instruc
                 state = 1;
                 break;
             case 1:
-                //b.setText("Score Me");
                 recordSong(v);
                 state = 2;
                 b.setText("Reset");
                 break;
             case 2:
-                //b.setText("Reset");
-                // Do reset-y stuff here
                 songRecording = "";
 
                 TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
