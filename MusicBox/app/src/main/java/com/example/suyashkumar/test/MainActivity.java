@@ -260,6 +260,10 @@ This function waits a specified amount of time before moving to the next instruc
             }
         }).start();
 
+        //make score button visible after song played
+        Button score = (Button) findViewById(R.id.recordSongID);
+        score.setVisibility(v.VISIBLE);
+
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
 
@@ -384,8 +388,6 @@ This function waits a specified amount of time before moving to the next instruc
                 case R.id.startButtonID:
                     Button b = (Button) findViewById(R.id.startButtonID);
                     b.setText("Good luck!");
-                    Button score = (Button) findViewById(R.id.recordSongID);
-                    score.setVisibility(v.VISIBLE);
                     startGame(v);
                     break;
                 case R.id.recordSongID:
