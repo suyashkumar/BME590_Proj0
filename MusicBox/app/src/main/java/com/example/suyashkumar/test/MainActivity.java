@@ -312,7 +312,7 @@ This function waits a specified amount of time before moving to the next instruc
         Button recordSongButton = (Button) findViewById(R.id.recordSongID); // find the button on the view
         System.out.println(songRecording);  //display recorded string for debug
         String userIn = songRecording;
-        float score = finalScore(origSong, userIn);
+        int score = finalScore(origSong, userIn);
         System.out.println(score);  //display score for debug
     }
 
