@@ -384,6 +384,7 @@ This function waits a specified amount of time before moving to the next instruc
                     score.setEnabled(false);
 
                     songRecording = "";
+                    break;
             }
         }
     };
