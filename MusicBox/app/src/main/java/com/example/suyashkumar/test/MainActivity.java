@@ -191,7 +191,7 @@ This function waits a specified amount of time before moving to the next instruc
     This function plays a maryHadALittleLamb, and lights up the corresponding keys.
     It returns a string containing the correct notes.
      */
-    public String maryHadALittleLamb(View v) {
+    public String maryHadALittleLamb(final View v) {
         new Thread(new Runnable() {
             public void run() {
                 playAndHighlight(buttonE, 500);
@@ -220,7 +220,14 @@ This function waits a specified amount of time before moving to the next instruc
                 playAndHighlight(buttonE, 500);
                 playAndHighlight(buttonD, 500);
                 playAndHighlight(buttonC, 500);
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+                        msgDisplay.setText("Your turn!");
+                        msgDisplay.setVisibility(v.VISIBLE);
+                    }
+                });
             }
         }).start();
 
@@ -260,9 +267,9 @@ This function waits a specified amount of time before moving to the next instruc
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         // String orig = playSong(songId); // play whatever song the user chose, implement later if time
         songRecording = ""; //reset string
-        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+/*        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
         msgDisplay.setText("Your turn!");
-        msgDisplay.setVisibility(v.VISIBLE);
+        msgDisplay.setVisibility(v.VISIBLE);*/
 
     }
 
