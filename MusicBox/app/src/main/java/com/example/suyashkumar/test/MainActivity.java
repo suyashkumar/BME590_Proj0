@@ -228,10 +228,12 @@ This function waits a specified amount of time before moving to the next instruc
                         msgDisplay.setVisibility(v.VISIBLE);
                     }
                 });
+
             }
         }).start();
 
         //make score button visible after song played
+
 
 
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
@@ -270,6 +272,7 @@ This function waits a specified amount of time before moving to the next instruc
 /*        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
         msgDisplay.setText("Your turn!");
         msgDisplay.setVisibility(v.VISIBLE);*/
+
 
     }
 
@@ -348,6 +351,10 @@ This function waits a specified amount of time before moving to the next instruc
         float score = 100 - percentWrong;
 
         int ret = (int) Math.floor(score);
+        if (ret < 0){
+            ret = 0;
+        }
+
         return ret;
     }
 
@@ -427,10 +434,15 @@ This function waits a specified amount of time before moving to the next instruc
                 break;
             case 2:
                 //b.setText("Reset");
-                // Do reset-y stuff here 
-                state = 3;
-                break;
-            case 3:
+                // Do reset-y stuff here
+                songRecording = "";
+                
+                TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+                msgDisplay.setVisibility(v.INVISIBLE);
+
+                TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
+                scoreNum.setVisibility(v.INVISIBLE);
+
                 b.setText("Start Game");
                 state = 0;
                 break;
