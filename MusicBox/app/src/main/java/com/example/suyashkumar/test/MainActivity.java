@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         buttonToNote.put(R.id.imageButton5,"G");
         buttonToNote.put(R.id.imageButton6,"A");
         buttonToNote.put(R.id.imageButton7, "B");
-        buttonToNote.put(R.id.imageButton8, "HIGH_C");
+        buttonToNote.put(R.id.imageButton8, "H");
 
     }
 
