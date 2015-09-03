@@ -127,49 +127,6 @@ This function waits a specified amount of time before moving to the next instruc
     public String playSound(View v) {
         int soundId=buttonToSound.get(v.getId());
         songRecording+=buttonToNote.get(v.getId());
-        /*
-        int soundId = -1; // Default value of soundId
-        //System.out.println(v.getId()); // Print the caller id for debug
-        //System.out.println(R.id.imageButton2);
-        switch (v.getId()) { //Switch over the id to determine who the caller was and set the proper soundId
-            case (R.id.imageButton):
-                soundId = R.raw.c;
-                songRecording += "C";
-                break;
-            case (R.id.imageButton2):
-                soundId = R.raw.d;
-                songRecording += "D";
-                break;
-            case (R.id.imageButton3):
-                soundId = R.raw.e;
-                songRecording += "E";
-                break;
-            case (R.id.imageButton4):
-                soundId = R.raw.f;
-                songRecording += "F";
-                break;
-            case (R.id.imageButton5):
-                soundId = R.raw.g;
-                songRecording += "G";
-                break;
-            case (R.id.imageButton6):
-                soundId = R.raw.a;
-                songRecording += "A";
-                break;
-            case (R.id.imageButton7):
-                soundId = R.raw.b;
-                songRecording += "B";
-                break;
-            case (R.id.imageButton8):
-                soundId = R.raw.high_c;
-                songRecording += "C";
-                break;
-            default:
-                System.exit(0); // If soundId is unchanged, something wrong is calling this function.
-                break;
-        }
-
-        */
         playSoundById(soundId);
         return songRecording;
     }
