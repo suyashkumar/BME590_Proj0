@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
     @param userIn The string of notes the user plays
      */
     public int finalScore(String orig, String userIn) {
-        
+
         int origLen = orig.length();
         int userLen = userIn.length();
 
@@ -298,15 +298,22 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < origLen; i++) {
             for (int j = 0; j < userLen; j++) {
+                // d = 1 if diff characters; d = 0 if same
                 int d = diff(orig.charAt(i), userIn.charAt(j));
 
+                // If first row of the table
                 if (i == 0) {
+                    // If first cell of the table
                     if (j == 0) {
+                        // Then table[0][0] = d
                         table[i][j] = d;
                     } else {
+                        // o.w. only option is to d + table[i][j-1] b/c no cells above or upper-left
                         table[i][j] = d + table[i][j - 1];
                     }
                 } else if (j == 0) {
+                    // If first column of table, then only option is d+table[i-1][j] b/c no cells
+                    // to the left or upper-left
                     table[i][j] = d + table[i - 1][j];
                 } else {
                     int interMin = Math.min(1 + table[i - 1][j], 1 + table[i][j - 1]);
@@ -320,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
         float percentWrong = editDist / ((float) origLen) * 100;
         float score = 100 - percentWrong;
 
+        // In case num errors > original length
         int ret = (int) Math.floor(score);
         if (ret < 0){
             ret = 0;
@@ -356,16 +364,21 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 b.setText("Good Luck!");
                 // Start the game
-                b.setEnabled(false);
                 startGame(v);
+                // Disable startGame button for duration of song
+                b.setEnabled(false);
+                // Update state
                 state = 1;
                 break;
             case 1:
+                // Score the user
                 scoreUser(v);
-                state = 2;
                 b.setText("Reset");
+                // Update State
+                state = 2;
                 break;
             case 2:
+                // Reset all text, user input, and state
                 songRecording = "";
 
                 TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
