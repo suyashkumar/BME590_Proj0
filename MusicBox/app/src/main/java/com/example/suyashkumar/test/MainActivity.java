@@ -230,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                         msgDisplay.setText("Your turn!");
                         msgDisplay.setVisibility(v.VISIBLE);
                         Button b = (Button) findViewById(R.id.startButtonID);
+                        b.setVisibility(v.VISIBLE);
                         b.setEnabled(true);
                         b.setText("Score Me");
                     }
@@ -254,7 +255,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (cur) {
             case 0:
-                b.setText("Good Luck!");
+                //b.setText("Good Luck!");
+                b.setVisibility(v.INVISIBLE);
                 // Start the game, disable button for duration of song
                 startGame(v);
                 b.setEnabled(false);
