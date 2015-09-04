@@ -245,8 +245,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*
     startGame
-    This function starts the game after a song selection has been made. It will play the song and
-    then call the recordSong method and determine a score.
+    This function starts the game after a song selection has been made. It will play the song when
+    the 'Start Game' button is clicked.
     @param v The view information from the calling object
      */
     public void startGame(View v) {
@@ -255,24 +255,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    recordSong
+    scoreUser
     This function ends the game once the user has finished playing their song. It will
-    then user input, then compare that to the original notes them to determine a score.
+    take user input, then compare that to the original notes them to determine a score.
     @param v The view information from the calling object
      */
-    public void recordSong(View v) {
-       // String userIn = songRecording;
-
+    public void scoreUser(View v) {
         // Get score
         int score = finalScore(origSong, songRecording);
+
+        String s = Integer.toString(score);
+        String out = s + "%";
 
         // Display score
         TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
         msgDisplay.setVisibility(v.VISIBLE);
         msgDisplay.setText("You got:");
-
-        String s = Integer.toString(score);
-        String out = s + "%";
 
         TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
         scoreNum.setText(out);
@@ -281,18 +279,21 @@ public class MainActivity extends AppCompatActivity {
 
     /*
     finalScore
-    This function returns a score for the user based on % correct (edit distance/orig length)*100
+    This function returns a score for the user based on % correct (edit distance/orig length)*100.
     @param orig The original string of notes played in the song
     @param userIn The string of notes the user plays
      */
     public int finalScore(String orig, String userIn) {
+        
         int origLen = orig.length();
         int userLen = userIn.length();
 
+        // If no input, score = 0
         if (userLen == 0) {
             return 0;
         }
 
+        // Initialize DP table
         Integer[][] table = new Integer[origLen][userLen];
 
         for (int i = 0; i < origLen; i++) {
@@ -360,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
                 state = 1;
                 break;
             case 1:
-                recordSong(v);
+                scoreUser(v);
                 state = 2;
                 b.setText("Reset");
                 break;
