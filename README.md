@@ -1,6 +1,6 @@
-# BME590_Proj0
-Suyash, Shana, Amy.
+# Piano Hero
+By Suyash, Shana, Amy.
 
-Hi
-Hi Amy
-hello2
+A simple piano game for the first project in BME590 (Mobile Devices for Biomedical Engineering). 
+
+
