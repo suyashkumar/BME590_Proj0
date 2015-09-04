@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         buttonToSound.put(R.id.imageButton3,R.raw.e);
         buttonToSound.put(R.id.imageButton4,R.raw.f);
         buttonToSound.put(R.id.imageButton5,R.raw.g);
-        buttonToSound.put(R.id.imageButton6,R.raw.a);
-        buttonToSound.put(R.id.imageButton7,R.raw.b);
+        buttonToSound.put(R.id.imageButton6, R.raw.a);
+        buttonToSound.put(R.id.imageButton7, R.raw.b);
         buttonToSound.put(R.id.imageButton8,R.raw.high_c);
 
         buttonToNote=new HashMap<Integer, String>();
@@ -156,6 +156,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
+    playAndHighlight
+    This function plays the sound and highlights the key corresponding to given button, followed by
+    a specified delay time.
+    @param button The ImageButton object to be played.
+    @param delay The delay time in ms to follow the sound.
+    */
+    private void playAndHighlight(final ImageButton button, int delay){
+        button.post(new Runnable() {
+            public void run() {
+                button.setSelected(true);
+            }
+        });
+        playSoundById(buttonToSound.get(button.getId()));
+        delay(delay);
+        button.post(new Runnable() {
+            public void run() {
+                button.setSelected(false);
+            }
+        });
+    }
+
+    /*
     maryHadALittleLamb
     This function plays a maryHadALittleLamb, and lights up the corresponding keys.
     It returns a string containing the correct notes.
@@ -221,27 +243,44 @@ public class MainActivity extends AppCompatActivity {
 
 
     /*
-    playAndHighlight
-    This function plays the sound and highlights the key corresponding to given button, followed by
-    a specified delay time.
-    @param button The ImageButton object to be played.
-    @param delay The delay time in ms to follow the sound.
-     */
-    private void playAndHighlight(final ImageButton button, int delay){
-        button.post(new Runnable() {
-            public void run() {
-                button.setSelected(true);
-            }
-        });
-        playSoundById(buttonToSound.get(button.getId()));
-        delay(delay);
-        button.post(new Runnable() {
-            public void run() {
-                button.setSelected(false);
-            }
-        });
-    }
+    buttonClick
+    This function sets the button text and calls the appropriate functions based on the value of the
+    state variable.
+    @param v The view information from the calling object.
+    */
+    public void buttonClick(View v) {
+        int cur = state;
+        Button b = (Button) findViewById(R.id.startButtonID);
 
+        switch (cur) {
+            case 0:
+                b.setText("Good Luck!");
+                // Start the game, disable button for duration of song
+                startGame(v);
+                b.setEnabled(false);
+                state = 1;
+                break;
+            case 1:
+                // Score the user
+                scoreUser(v);
+                b.setText("Reset");
+                state = 2;
+                break;
+            case 2:
+                // Reset all text, user input, and state
+                songRecording = "";
+
+                TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+                msgDisplay.setVisibility(v.INVISIBLE);
+
+                TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
+                scoreNum.setVisibility(v.INVISIBLE);
+
+                b.setText("Start Game");
+                state = 0;
+                break;
+        }
+    }
 
     /*
     startGame
@@ -350,47 +389,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    buttonClick
-    This function sets the button text and calls the appropriate functions based on the value of the
-    state variable.
-    @param v The view information from the calling object.
-    */
-        public void buttonClick(View v) {
-        int cur = state;
-        Button b = (Button) findViewById(R.id.startButtonID);
-
-        switch (cur) {
-            case 0:
-                b.setText("Good Luck!");
-                // Start the game
-                startGame(v);
-                // Disable startGame button for duration of song
-                b.setEnabled(false);
-                // Update state
-                state = 1;
-                break;
-            case 1:
-                // Score the user
-                scoreUser(v);
-                b.setText("Reset");
-                // Update State
-                state = 2;
-                break;
-            case 2:
-                // Reset all text, user input, and state
-                songRecording = "";
-
-                TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-                msgDisplay.setVisibility(v.INVISIBLE);
-
-                TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
-                scoreNum.setVisibility(v.INVISIBLE);
-
-                b.setText("Start Game");
-                state = 0;
-                break;
-        }
-    }
 
 }
