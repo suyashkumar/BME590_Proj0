@@ -7,18 +7,34 @@ TODO: Description
 @author Amy Zhao
  */
 package com.example.suyashkumar.test;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.hardware.usb.UsbAccessory;
+import android.hardware.usb.UsbManager;
 import android.media.MediaPlayer;
+import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import java.util.HashMap;
+import android.widget.ToggleButton;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import android.app.Activity;
+
+public class MainActivity extends Activity {
     int number = 0; // Number of times clicked
 
     String songRecording; // String of notes that user has input
@@ -26,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     HashMap<Integer,Integer> buttonToSound; // Maps button id to R.raw.N id
     HashMap<Integer,String> buttonToNote; // Maps pressed button id to note letter
+    HashMap<String, Integer> noteToButton; // Maps pressed button id to note letter
 
     ImageButton buttonC;
     ImageButton buttonD;
@@ -35,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton buttonA;
     ImageButton buttonB;
     ImageButton buttonHighC;
+    private ToggleButton startToggleButton;
+    TextView text;
 
     // state = 0: free play --> button: start game
     // state = 1: in game --> button: good luck -> score me
@@ -52,11 +71,25 @@ public class MainActivity extends AppCompatActivity {
         buttonG = (ImageButton) findViewById(R.id.imageButton5);
         buttonA = (ImageButton) findViewById(R.id.imageButton6);
         buttonB = (ImageButton) findViewById(R.id.imageButton7);
+        startToggleButton=(ToggleButton) findViewById(R.id.startButtonID);
         buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
         initMaps();
+        text=(TextView) findViewById(R.id.textView);
 
         // Initialize state
         state = 0;
+        super.onCreate(savedInstanceState);
+
+        mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
+        mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+        IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+        filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
+        registerReceiver(mUsbReceiver, filter);
+
+        if (getLastNonConfigurationInstance() != null) {
+            mAccessory = (UsbAccessory) getLastNonConfigurationInstance();
+            openAccessory(mAccessory);
+        }
     }
 
     /*
@@ -84,6 +117,17 @@ public class MainActivity extends AppCompatActivity {
         buttonToNote.put(R.id.imageButton6,"A");
         buttonToNote.put(R.id.imageButton7, "B");
         buttonToNote.put(R.id.imageButton8, "H");
+
+        noteToButton=new HashMap<String, Integer>();
+        noteToButton.put("C",R.id.imageButton);
+        noteToButton.put("D",R.id.imageButton2);
+        noteToButton.put("E",R.id.imageButton3);
+        noteToButton.put("F",R.id.imageButton4);
+        noteToButton.put("G",R.id.imageButton5);
+        noteToButton.put("A",R.id.imageButton6);
+        noteToButton.put("B",R.id.imageButton7);
+        noteToButton.put("H",R.id.imageButton8);
+
 
     }
 
@@ -183,9 +227,10 @@ public class MainActivity extends AppCompatActivity {
     It returns a string containing the correct notes.
     @param v The view information from the calling object
      */
+    Thread tSong;
     public String maryHadALittleLamb(final View v) {
         // Play song in separate thread
-        new Thread(new Runnable() {
+        tSong=new Thread(new Runnable() {
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -236,8 +281,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                stopThread = false;
+                t.start();
+
             }
-        }).start();
+        });
+        tSong.start();
 
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
@@ -264,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 1:
                 // Score the user
-                scoreUser(v);
+                scoreUser();
                 b.setText("Reset");
                 state = 2;
                 break;
@@ -273,10 +322,10 @@ public class MainActivity extends AppCompatActivity {
                 songRecording = "";
 
                 TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-                msgDisplay.setVisibility(v.INVISIBLE);
+                msgDisplay.setVisibility(msgDisplay.INVISIBLE);
 
                 TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
-                scoreNum.setVisibility(v.INVISIBLE);
+                scoreNum.setVisibility(msgDisplay.INVISIBLE);
 
                 b.setText("Start Game");
                 state = 0;
@@ -293,6 +342,10 @@ public class MainActivity extends AppCompatActivity {
     public void startGame(View v) {
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         songRecording = ""; //reset string
+        // Start Listening
+
+        //startListening();
+
     }
 
     /*
@@ -301,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
     take user input, then compare that to the original notes them to determine a score.
     @param v The view information from the calling object
      */
-    public void scoreUser(View v) {
+    public void scoreUser() {
         // Get score
         int score = finalScore(origSong, songRecording);
 
@@ -310,12 +363,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Display score
         TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-        msgDisplay.setVisibility(v.VISIBLE);
+        msgDisplay.setVisibility(msgDisplay.VISIBLE);
         msgDisplay.setText("You got:");
 
         TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
         scoreNum.setText(out);
-        scoreNum.setVisibility(v.VISIBLE);
+        scoreNum.setVisibility(msgDisplay.VISIBLE);
     }
 
     /*
@@ -389,7 +442,186 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return 1;
         }
+
+
+
+
+        // USB STUFF:
+
+    }
+    //USB STUFF:
+    private int currentKey=-1;
+    // TAG is used to debug in Android logcat console
+    private static final String TAG = "ArduinoAccessory";
+
+    private static final String ACTION_USB_PERMISSION = "com.example.arduinoblinker.action.USB_PERMISSION";
+
+    private UsbManager mUsbManager;
+    private PendingIntent mPermissionIntent;
+    private boolean mPermissionRequestPending;
+
+
+    UsbAccessory mAccessory;
+    ParcelFileDescriptor mFileDescriptor;
+    FileInputStream mInputStream;
+    FileOutputStream mOutputStream;
+
+    private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (ACTION_USB_PERMISSION.equals(action)) {
+                synchronized (this) {
+                    UsbAccessory accessory = (UsbAccessory)intent.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
+                    if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                        openAccessory(accessory);
+                    } else {
+                        Log.d(TAG, "permission denied for accessory "
+                                + accessory);
+                    }
+                    mPermissionRequestPending = false;
+                }
+            } else if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action)) {
+                UsbAccessory accessory = (UsbAccessory)intent.getParcelableExtra(UsbManager.EXTRA_ACCESSORY); {
+                    if (accessory != null && accessory.equals(mAccessory)) {
+                        closeAccessory();
+                    }
+                }
+            }
+        }
+    };
+
+
+
+
+
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+        if (mAccessory != null) {
+            return mAccessory;
+        } else {
+            return super.onRetainNonConfigurationInstance();
+        }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mInputStream != null && mOutputStream != null) {
+            return;
+        }
+
+        UsbAccessory[] accessories = mUsbManager.getAccessoryList();
+        UsbAccessory accessory = (accessories == null ? null : accessories[0]);
+        if (accessory != null) {
+            if (mUsbManager.hasPermission(accessory)) {
+                openAccessory(accessory);
+            } else {
+                synchronized (mUsbReceiver) {
+                    if (!mPermissionRequestPending) {
+                        mUsbManager.requestPermission(accessory,mPermissionIntent);
+                        mPermissionRequestPending = true;
+                    }
+                }
+            }
+        } else {
+            Log.d(TAG, "mAccessory is null");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        closeAccessory();
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(mUsbReceiver);
+        super.onDestroy();
+    }
+
+    private void openAccessory(UsbAccessory mAccessory2) {
+        mFileDescriptor = mUsbManager.openAccessory(mAccessory2);
+
+        if (mFileDescriptor != null) {
+            mAccessory = mAccessory2;
+            FileDescriptor fd = mFileDescriptor.getFileDescriptor();
+            mInputStream = new FileInputStream(fd);
+            mOutputStream = new FileOutputStream(fd);
+            Log.d(TAG, "accessory opened");
+        } else {
+            Log.d(TAG, "accessory open fail");
+        }
+    }
+
+
+    private void closeAccessory() {
+        try {
+            if (mFileDescriptor != null) {
+                mFileDescriptor.close();
+            }
+        } catch (IOException e) {
+        } finally {
+            mFileDescriptor = null;
+            mAccessory = null;
+        }
+    }
+
+
+    boolean stopThread=false;
+
+    Thread t = new Thread(new Runnable() {
+        public void run() {
+
+            byte[] lastRead=new byte[1];
+            char lastReadChar;
+            text.setText("Thread Started");
+            try {
+                while(true) {
+                    mInputStream.read(lastRead,0,1);
+                    lastReadChar=(char)lastRead[0];
+                    songRecording=songRecording+Character.toString(lastReadChar);
+                    text.setText(lastReadChar);
+                    ImageButton currentButton=(ImageButton) findViewById(noteToButton.get(Character.toString(lastReadChar)));
+                    playAndHighlight(currentButton, 500);
+
+                    if (stopThread){
+                        return;
+                    }
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    });
+
+    public void startListening() {
+        /*
+        Spawns the recording thread that populates
+        @param View v the calling view.
+        */
+        //TextView text = (TextView) findViewById(R.id.textView);
+        /*
+        if (mInputStream==null){
+            text.setText("INPUTSTREAM NULL");
+        }
+        */
+
+        if (startToggleButton.isChecked()) {
+            // Start polling thread
+            //t.start();
+            stopThread = false;
+
+        } else {
+            stopThread = true;
+            // Score the game
+            scoreUser();
+        }
+    }
 
 }
