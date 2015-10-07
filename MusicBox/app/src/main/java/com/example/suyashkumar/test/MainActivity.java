@@ -282,7 +282,7 @@ public class MainActivity extends Activity {
                 });
 
                 stopThread = false;
-                t.start();
+               //t.start();
 
             }
         });
@@ -584,8 +584,8 @@ public class MainActivity extends Activity {
                 while(true) {
                     mInputStream.read(lastRead,0,1);
                     lastReadChar=(char)lastRead[0];
-                    songRecording=songRecording+Character.toString(lastReadChar);
                     text.setText(lastReadChar);
+                    songRecording=songRecording+Character.toString(lastReadChar);
                     ImageButton currentButton=(ImageButton) findViewById(noteToButton.get(Character.toString(lastReadChar)));
                     playAndHighlight(currentButton, 500);
 
@@ -616,12 +616,33 @@ public class MainActivity extends Activity {
             // Start polling thread
             //t.start();
             stopThread = false;
+            byte[] lastRead=new byte[2];
+            char lastReadChar;
+            text.setText("Thread Started");
+            while(true) {
 
-        } else {
-            stopThread = true;
-            // Score the game
-            scoreUser();
+                try {
+                    mInputStream.read(lastRead,0,1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                lastReadChar=(char)lastRead[0];
+                //songRecording=songRecording+Character.toString(lastReadChar);
+                text.setText(lastReadChar);
+                if (lastReadChar == 'X'){ // If gets X stop
+                    break;
+                }
+                //ImageButton currentButton=(ImageButton) findViewById(noteToButton.get(Character.toString(lastReadChar)));
+                //playAndHighlight(currentButton, 500);
+
+
+
+            }
+            startToggleButton.setChecked(false);
         }
+
+
+
     }
 
 }
