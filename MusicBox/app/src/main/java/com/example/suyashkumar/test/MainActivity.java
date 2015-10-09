@@ -52,7 +52,6 @@ public class MainActivity extends Activity {
     ImageButton buttonA;
     ImageButton buttonB;
     ImageButton buttonHighC;
-    private ToggleButton startToggleButton;
     TextView text;
 
     // state = 0: free play --> button: start game
@@ -60,6 +59,24 @@ public class MainActivity extends Activity {
     // state = 2: done scoring --> button: reset
     int state;
 
+    //USB STUFF:
+    private int currentKey=-1;
+    // TAG is used to debug in Android logcat console
+    private static final String TAG = "ArduinoAccessory";
+
+    private static final String ACTION_USB_PERMISSION = "com.example.arduinoblinker.action.USB_PERMISSION";
+
+    private UsbManager mUsbManager;
+    private PendingIntent mPermissionIntent;
+    private boolean mPermissionRequestPending;
+
+
+    UsbAccessory mAccessory;
+    ParcelFileDescriptor mFileDescriptor;
+    FileInputStream mInputStream;
+    FileOutputStream mOutputStream;
+
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +88,14 @@ public class MainActivity extends Activity {
         buttonG = (ImageButton) findViewById(R.id.imageButton5);
         buttonA = (ImageButton) findViewById(R.id.imageButton6);
         buttonB = (ImageButton) findViewById(R.id.imageButton7);
-        startToggleButton=(ToggleButton) findViewById(R.id.startButtonID);
         buttonHighC = (ImageButton) findViewById(R.id.imageButton8);
         initMaps();
         text=(TextView) findViewById(R.id.textView);
 
+        text.setText("creating");
+
+        ToggleButton startToggleButton=(ToggleButton) findViewById(R.id.startButtonID);
+        startToggleButton.setText("Start Game");
         // Initialize state
         state = 0;
         super.onCreate(savedInstanceState);
@@ -86,10 +106,15 @@ public class MainActivity extends Activity {
         filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
         registerReceiver(mUsbReceiver, filter);
 
+        TextView text2 = (TextView) findViewById(R.id.textView2);
+        text2.setText("before text");
         if (getLastNonConfigurationInstance() != null) {
+            text2.setText("getting accessory");
             mAccessory = (UsbAccessory) getLastNonConfigurationInstance();
             openAccessory(mAccessory);
         }
+
+        text.setText("done creating");
     }
 
     /*
@@ -230,16 +255,16 @@ public class MainActivity extends Activity {
     Thread tSong;
     public String maryHadALittleLamb(final View v) {
         // Play song in separate thread
-        tSong=new Thread(new Runnable() {
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+//        tSong=new Thread(new Runnable() {
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
                         TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
                         msgDisplay.setText("Wait and listen!");
                         msgDisplay.setVisibility(v.VISIBLE);
-                    }
-                });
+//                    }
+//                });
                 playAndHighlight(buttonE, 500);
                 playAndHighlight(buttonD, 500);
                 playAndHighlight(buttonC, 500);
@@ -268,25 +293,25 @@ public class MainActivity extends Activity {
                 playAndHighlight(buttonC, 500);
 
                 // Update messages and buttons on UI after song finishes
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                        msgDisplay = (TextView) findViewById(R.id.msgDisplay);
                         msgDisplay.setText("Your turn!");
                         msgDisplay.setVisibility(v.VISIBLE);
                         Button b = (Button) findViewById(R.id.startButtonID);
                         b.setVisibility(v.VISIBLE);
                         b.setEnabled(true);
                         b.setText("Score Me");
-                    }
-                });
+//                    }
+//                });
 
-                stopThread = false;
+//                stopThread = false;
                //t.start();
 
-            }
-        });
-        tSong.start();
+//            }
+//        });
+//        tSong.start();
 
         return "EDCDEEEDDDEGGEDCDEEEEDDEDC";
     }
@@ -298,18 +323,32 @@ public class MainActivity extends Activity {
     state variable.
     @param v The view information from the calling object.
     */
+    @SuppressWarnings("deprecation")
     public void buttonClick(View v) {
         int cur = state;
         Button b = (Button) findViewById(R.id.startButtonID);
+        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
 
         switch (cur) {
             case 0:
                 //b.setText("Good Luck!");
                 b.setVisibility(v.INVISIBLE);
-                // Start the game, disable button for duration of song
-                startGame(v);
+
+                msgDisplay.setText("Wait and listen!");
+                msgDisplay.setVisibility(v.VISIBLE);
                 b.setEnabled(false);
                 state = 1;
+
+                /*TextView text2 = (TextView) findViewById(R.id.textView2);
+                text2.setText("before text");
+                if (getLastNonConfigurationInstance() != null) {
+                    text2.setText("getting accessory");
+                    mAccessory = (UsbAccessory) getLastNonConfigurationInstance();
+                    openAccessory(mAccessory);
+                }*/
+
+                // Start the game, disable button for duration of song
+                startGame(v);
                 break;
             case 1:
                 // Score the user
@@ -321,7 +360,6 @@ public class MainActivity extends Activity {
                 // Reset all text, user input, and state
                 songRecording = "";
 
-                TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
                 msgDisplay.setVisibility(msgDisplay.INVISIBLE);
 
                 TextView scoreNum = (TextView) findViewById(R.id.scoreNum);
@@ -343,9 +381,14 @@ public class MainActivity extends Activity {
         origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
         songRecording = ""; //reset string
         // Start Listening
-
-        //startListening();
-
+        startListening();
+        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+//        msgDisplay.setText("Your turn!");
+//        msgDisplay.setVisibility(v.VISIBLE);
+        Button b = (Button) findViewById(R.id.startButtonID);
+        b.setVisibility(v.VISIBLE);
+        b.setEnabled(true);
+        b.setText("Score Me");
     }
 
     /*
@@ -357,6 +400,21 @@ public class MainActivity extends Activity {
     public void scoreUser() {
         // Get score
         int score = finalScore(origSong, songRecording);
+
+        byte[] win = new byte[1];
+        if (score == 100) {
+            win[0] = 1;
+        } else {
+            win[0] = 0;
+        }
+
+        if (mOutputStream!=null) {
+            try {
+                mOutputStream.write(win);
+            } catch (IOException e) {
+                Log.e(TAG, "write failed", e);
+            }
+        }
 
         String s = Integer.toString(score);
         String out = s + "%";
@@ -442,29 +500,8 @@ public class MainActivity extends Activity {
         } else {
             return 1;
         }
-
-
-
-
-        // USB STUFF:
-
     }
-    //USB STUFF:
-    private int currentKey=-1;
-    // TAG is used to debug in Android logcat console
-    private static final String TAG = "ArduinoAccessory";
 
-    private static final String ACTION_USB_PERMISSION = "com.example.arduinoblinker.action.USB_PERMISSION";
-
-    private UsbManager mUsbManager;
-    private PendingIntent mPermissionIntent;
-    private boolean mPermissionRequestPending;
-
-
-    UsbAccessory mAccessory;
-    ParcelFileDescriptor mFileDescriptor;
-    FileInputStream mInputStream;
-    FileOutputStream mOutputStream;
 
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         @Override
@@ -490,11 +527,6 @@ public class MainActivity extends Activity {
             }
         }
     };
-
-
-
-
-
 
     @SuppressWarnings("deprecation")
     @Override
@@ -546,7 +578,7 @@ public class MainActivity extends Activity {
 
     private void openAccessory(UsbAccessory mAccessory2) {
         mFileDescriptor = mUsbManager.openAccessory(mAccessory2);
-
+        text.setText("in open accessory");
         if (mFileDescriptor != null) {
             mAccessory = mAccessory2;
             FileDescriptor fd = mFileDescriptor.getFileDescriptor();
@@ -571,77 +603,41 @@ public class MainActivity extends Activity {
         }
     }
 
-
     boolean stopThread=false;
 
-    Thread t = new Thread(new Runnable() {
-        public void run() {
 
-            byte[] lastRead=new byte[1];
-            char lastReadChar;
-            text.setText("Thread Started");
-            try {
-                while(true) {
-                    mInputStream.read(lastRead,0,1);
-                    lastReadChar=(char)lastRead[0];
-                    text.setText(lastReadChar);
-                    songRecording=songRecording+Character.toString(lastReadChar);
-                    ImageButton currentButton=(ImageButton) findViewById(noteToButton.get(Character.toString(lastReadChar)));
-                    playAndHighlight(currentButton, 500);
-
-                    if (stopThread){
-                        return;
-                    }
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    });
 
     public void startListening() {
         /*
         Spawns the recording thread that populates
         @param View v the calling view.
         */
-        //TextView text = (TextView) findViewById(R.id.textView);
-        /*
-        if (mInputStream==null){
-            text.setText("INPUTSTREAM NULL");
-        }
-        */
+        char lastReadChar;
+        text.setText("Listening");
+        byte[] lastRead = new byte[6];
 
-        if (startToggleButton.isChecked()) {
-            // Start polling thread
-            //t.start();
-            stopThread = false;
-            byte[] lastRead=new byte[2];
-            char lastReadChar;
-            text.setText("Thread Started");
-            while(true) {
-
+        while(true) {
+            if (mInputStream != null) {
                 try {
-                    mInputStream.read(lastRead,0,1);
+                    if (mInputStream.read(lastRead, 0, 6) > 0) {
+                        lastReadChar = (char) lastRead[0];
+                        if (lastReadChar == 'X') { // If gets X stop
+                            text.setText(songRecording);
+                            break;
+                        }
+
+                        //int button = noteToButton.get(Character.toString(lastReadChar));
+                        //playSoundById(buttonToSound.get(button));
+                       // ImageButton b = (ImageButton) findViewById(button);
+                        //playAndHighlight(b, 500);
+                        songRecording = songRecording + Character.toString(lastReadChar);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                lastReadChar=(char)lastRead[0];
-                //songRecording=songRecording+Character.toString(lastReadChar);
-                text.setText(lastReadChar);
-                if (lastReadChar == 'X'){ // If gets X stop
-                    break;
-                }
-                //ImageButton currentButton=(ImageButton) findViewById(noteToButton.get(Character.toString(lastReadChar)));
-                //playAndHighlight(currentButton, 500);
-
-
-
             }
-            startToggleButton.setChecked(false);
+
         }
-
-
 
     }
 
