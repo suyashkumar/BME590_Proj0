@@ -92,8 +92,6 @@ public class MainActivity extends Activity {
         initMaps();
         text=(TextView) findViewById(R.id.textView);
 
-        text.setText("creating");
-
         ToggleButton startToggleButton=(ToggleButton) findViewById(R.id.startButtonID);
         startToggleButton.setText("Start Game");
         // Initialize state
@@ -106,15 +104,11 @@ public class MainActivity extends Activity {
         filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
         registerReceiver(mUsbReceiver, filter);
 
-        TextView text2 = (TextView) findViewById(R.id.textView2);
-        text2.setText("before text");
         if (getLastNonConfigurationInstance() != null) {
-            text2.setText("getting accessory");
             mAccessory = (UsbAccessory) getLastNonConfigurationInstance();
             openAccessory(mAccessory);
         }
 
-        text.setText("done creating");
     }
 
     /*
@@ -253,7 +247,7 @@ public class MainActivity extends Activity {
     @param v The view information from the calling object
      */
     Thread tSong;
-    public String maryHadALittleLamb(final View v) {
+    public String maryHadALittleLamb(View v) {
         // Play song in separate thread
 //        tSong=new Thread(new Runnable() {
 //            public void run() {
@@ -302,7 +296,7 @@ public class MainActivity extends Activity {
                         Button b = (Button) findViewById(R.id.startButtonID);
                         b.setVisibility(v.VISIBLE);
                         b.setEnabled(true);
-                        b.setText("Score Me");
+//                        b.setText("Score Me");
 //                    }
 //                });
 
@@ -331,21 +325,14 @@ public class MainActivity extends Activity {
 
         switch (cur) {
             case 0:
-                //b.setText("Good Luck!");
-                b.setVisibility(v.INVISIBLE);
+                b.setVisibility(b.INVISIBLE);
 
                 msgDisplay.setText("Wait and listen!");
-                msgDisplay.setVisibility(v.VISIBLE);
+                msgDisplay.setVisibility(msgDisplay.VISIBLE);
                 b.setEnabled(false);
                 state = 1;
 
-                /*TextView text2 = (TextView) findViewById(R.id.textView2);
-                text2.setText("before text");
-                if (getLastNonConfigurationInstance() != null) {
-                    text2.setText("getting accessory");
-                    mAccessory = (UsbAccessory) getLastNonConfigurationInstance();
-                    openAccessory(mAccessory);
-                }*/
+
 
                 // Start the game, disable button for duration of song
                 startGame(v, true);
@@ -384,12 +371,12 @@ public class MainActivity extends Activity {
             songRecording = ""; //reset string
         }
 
-        delay(1000);
         // Start Listening
         char lastReadChar = startListening();
         if (lastReadChar == 'X') { // If gets X stop
                 String scoring = "Scoring: " + songRecording;
                 text.setText(scoring);
+                text.setVisibility(text.VISIBLE);
                 scoreUser();
                 return;
         }
@@ -401,13 +388,7 @@ public class MainActivity extends Activity {
             startGame(v, false);
         }
 
-//        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-////        msgDisplay.setText("Your turn!");
-////        msgDisplay.setVisibility(v.VISIBLE);
-//        Button b = (Button) findViewById(R.id.startButtonID);
-//        b.setVisibility(v.VISIBLE);
-//        b.setEnabled(true);
-//        b.setText("Score Me");
+
     }
 
     /*
@@ -597,7 +578,6 @@ public class MainActivity extends Activity {
 
     private void openAccessory(UsbAccessory mAccessory2) {
         mFileDescriptor = mUsbManager.openAccessory(mAccessory2);
-        text.setText("in open accessory");
         if (mFileDescriptor != null) {
             mAccessory = mAccessory2;
             FileDescriptor fd = mFileDescriptor.getFileDescriptor();
