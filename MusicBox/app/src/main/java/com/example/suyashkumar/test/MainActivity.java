@@ -348,7 +348,7 @@ public class MainActivity extends Activity {
                 }*/
 
                 // Start the game, disable button for duration of song
-                startGame(v);
+                startGame(v, true);
                 break;
             case 1:
                 // Score the user
@@ -377,18 +377,37 @@ public class MainActivity extends Activity {
     the 'Start Game' button is clicked.
     @param v The view information from the calling object
      */
-    public void startGame(View v) {
-        origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
-        songRecording = ""; //reset string
+    public void startGame(View v, boolean playMary) {
+
+        if (playMary){
+            origSong = maryHadALittleLamb(v); // play mary had a little lamb right now
+            songRecording = ""; //reset string
+        }
+
+        delay(1000);
         // Start Listening
-        startListening();
-        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
-//        msgDisplay.setText("Your turn!");
-//        msgDisplay.setVisibility(v.VISIBLE);
-        Button b = (Button) findViewById(R.id.startButtonID);
-        b.setVisibility(v.VISIBLE);
-        b.setEnabled(true);
-        b.setText("Score Me");
+        char lastReadChar = startListening();
+        if (lastReadChar == 'X') { // If gets X stop
+                String scoring = "Scoring: " + songRecording;
+                text.setText(scoring);
+                scoreUser();
+                return;
+        }
+        else{
+            int button = noteToButton.get(Character.toString(lastReadChar));
+            ImageButton b = (ImageButton) findViewById(button);
+            playAndHighlight(b, 500);
+            songRecording = songRecording + Character.toString(lastReadChar);
+            startGame(v, false);
+        }
+
+//        TextView msgDisplay = (TextView) findViewById(R.id.msgDisplay);
+////        msgDisplay.setText("Your turn!");
+////        msgDisplay.setVisibility(v.VISIBLE);
+//        Button b = (Button) findViewById(R.id.startButtonID);
+//        b.setVisibility(v.VISIBLE);
+//        b.setEnabled(true);
+//        b.setText("Score Me");
     }
 
     /*
@@ -607,7 +626,7 @@ public class MainActivity extends Activity {
 
 
 
-    public void startListening() {
+    public char startListening() {
         /*
         Spawns the recording thread that populates
         @param View v the calling view.
@@ -621,16 +640,8 @@ public class MainActivity extends Activity {
                 try {
                     if (mInputStream.read(lastRead, 0, 6) > 0) {
                         lastReadChar = (char) lastRead[0];
-                        if (lastReadChar == 'X') { // If gets X stop
-                            text.setText(songRecording);
-                            break;
-                        }
-
-                        //int button = noteToButton.get(Character.toString(lastReadChar));
-                        //playSoundById(buttonToSound.get(button));
-                       // ImageButton b = (ImageButton) findViewById(button);
-                        //playAndHighlight(b, 500);
-                        songRecording = songRecording + Character.toString(lastReadChar);
+                        text.setText("read char");
+                        return lastReadChar;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
